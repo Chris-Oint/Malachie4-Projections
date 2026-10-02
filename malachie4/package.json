@@ -1,0 +1,89 @@
+{
+  "name": "malachie4-projections",
+  "productName": "Malachie 4 Projections",
+  "version": "2.0.0",
+  "description": "Logiciel de projection d'église pour Windows : 6 zones de contrôle, écran public (2e écran) transparent, Bible, cantiques et brochures (La Voix de Dieu / Shekinah).",
+  "main": "main.js",
+  "author": "Église — Malachie 4",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node tests/tout.js",
+    "contenu": "node outils/preparer_contenu.js",
+    "demo": "node outils/construire_demo.js",
+    "web": "node outils/serveur_web.js",
+    "dist": "electron-builder --win --x64",
+    "dist:portable": "electron-builder --win portable --x64"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3",
+    "jsdom": "^29.1.1"
+  },
+  "build": {
+    "appId": "org.malachie4.projections",
+    "productName": "Malachie 4 Projections",
+    "copyright": "Malachie 4 Projections",
+    "directories": {
+      "output": "livraison",
+      "buildResources": "ressources"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "render.js",
+      "app/**/*",
+      "content/**/*",
+      "ressources/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "main.js"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "Malachie4-Projections-${version}-${arch}.${ext}",
+      "legalTrademarks": "Malachie 4",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Malachie 4 Projections",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true
+    },
+    "portable": {
+      "artifactName": "Malachie4-Projections-portable-${version}.exe"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "AudioVideo"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.productivity"
+    }
+  }
+}

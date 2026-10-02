@@ -1,0 +1,147 @@
+/* ============================================================================
+   Malachie 4 Projections — Poste de contrôle (grille 3 × 2 + barre haute)
+   ========================================================================== */
+:root{
+  --fond:#141922; --zone:#1c2230; --zone2:#202836; --bord:#2f3a4d; --tx:#e8edf7; --tx2:#93a3bd;
+  --accent:#3b82f6; --vert:#2e9e63; --jaune:#f5d90a; --rouge:#d9534f; --or:#c8a227;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:var(--fond); color:var(--tx); overflow:hidden;
+  font:14px/1.4 "Segoe UI",Tahoma,Arial,sans-serif;
+  display:flex; flex-direction:column;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+h2{margin:0;padding:7px 10px;font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;
+   color:#a9c2ea;background:#1a2130;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:8px}
+h2 .compte{color:var(--tx2);font-weight:400;text-transform:none;letter-spacing:0}
+h2 .outils{margin-left:auto;display:flex;gap:5px}
+.discret{color:var(--tx2);font-size:11.5px}
+
+/* ---------------- barre haute ---------------- */
+#barreHaute{
+  display:flex;align-items:center;gap:10px;padding:7px 10px;background:#10151d;border-bottom:1px solid var(--bord);
+  flex:0 0 auto;
+}
+.bh-gauche{display:flex;align-items:center;gap:12px;min-width:0}
+.bh-droite{margin-left:auto;display:flex;gap:6px;align-items:center;
+  /* alignée sur la colonne 3 : décalage de 2/3 de la largeur utile */
+  padding-left:12px;border-left:1px solid var(--bord);min-width:calc((100% - 24px) * .34)}
+.logo{font-size:15px;letter-spacing:.02em;white-space:nowrap}.logo b{color:var(--accent)}
+.etat{font-size:12px;padding:3px 9px;border-radius:999px;background:#1b2331;border:1px solid var(--bord);white-space:nowrap}
+.etat.ok{color:#8ce0b0;border-color:#2c5c44}.etat.cherche{color:#f0cf6c;border-color:#5c5024}
+.etat.dec{color:#f0a0a0;border-color:#5c2c2c}
+.cmd{background:#26303f;border:1px solid var(--bord);border-radius:7px;padding:7px 12px;font-size:13px;white-space:nowrap}
+.cmd:hover{background:#2e3a4c}
+.cmd.on{background:var(--vert);border-color:#37b374;color:#fff}
+.cmd.danger{background:#3a2226;border-color:#64333a;color:#ffc9c9}
+.cmd.danger:hover{background:#5a2b31}
+.cmd.mini,.mini{background:#26303f;border:1px solid var(--bord);border-radius:6px;padding:3px 8px;font-size:12px}
+.mini:hover{background:#334054}
+button[disabled]{opacity:.45;cursor:default}
+
+/* ---------------- grille ---------------- */
+#grille{
+  flex:1 1 auto;min-height:0;display:grid;gap:7px;padding:7px;
+  grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;
+}
+.zone{background:var(--zone);border:1px solid var(--bord);border-radius:9px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.zone .corps{flex:1 1 auto;min-height:0;overflow:auto;padding:7px}
+
+/* ---------------- listes ---------------- */
+.it{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:6px;cursor:pointer;border:1px solid transparent}
+.it:hover{background:#28313f}
+.it .nom{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.it .sous{color:var(--tx2);font-size:11.5px;white-space:nowrap}
+.it .type{color:var(--accent);font-weight:600}
+.it.sel{background:#3a4a24;border-color:#6b8a3a}
+.it.live{background:#20403a;border-color:#2e9e63}
+.it.proj{background:#2b3d24;border-color:var(--vert)}
+.it .x{color:#ef8b8b;padding:0 5px;font-weight:700}
+.it .x:hover{color:#fff;background:#5a2b31;border-radius:4px}
+.it .plus{color:#8ce0b0;padding:0 5px;font-weight:700}
+.it .plus:hover{color:#fff;background:#2e5c46;border-radius:4px}
+.it[draggable="true"]{cursor:grab}
+.it.glisse{opacity:.45}
+.it.survol{border-color:var(--accent)}
+.vide{color:var(--tx2);font-size:12.5px;text-align:center;padding:14px 6px;line-height:1.6}
+
+/* ---------------- zone 2 : réglages ---------------- */
+.reglages .ligne{display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap}
+.reglages label{color:var(--tx2);font-size:12px;min-width:86px}
+.reglages label.sec{min-width:auto;margin-left:8px}
+.reglages .valeur{min-width:34px;text-align:center;font-variant-numeric:tabular-nums}
+.reglages select,.reglages input[type=color]{background:#111823;border:1px solid var(--bord);color:var(--tx);border-radius:6px;padding:4px 6px;font-size:12px}
+.reglages input[type=color]{width:42px;height:26px;padding:1px}
+.reglages .case{display:flex;align-items:center;gap:6px;min-width:auto}
+.reglages .mini.actif{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ---------------- zone 3 : écran-retour ---------------- */
+.miroir{position:relative;width:100%;overflow:hidden;background:#0b0e13;border-radius:6px;border:1px solid var(--bord)}
+.miroir-cadre{position:absolute;left:0;top:0;transform-origin:0 0}
+.miroir-box{position:absolute;left:0;top:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.miroir-txt{text-align:center;line-height:1.18;white-space:pre-wrap;word-wrap:break-word}
+
+/* ---------------- zone 4 : bibliothèque ---------------- */
+.onglets{display:flex;gap:5px;padding:6px 8px 0;align-items:center}
+.onglet{background:#26303f;border:1px solid var(--bord);border-bottom:0;border-radius:7px 7px 0 0;padding:6px 11px;font-size:12.5px}
+.onglet.actif{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.souple{flex:1 1 auto}
+.recherche{display:flex;gap:5px;padding:6px 8px 7px;border-bottom:1px solid var(--bord)}
+.recherche input{flex:1 1 auto;background:#111823;border:1px solid var(--bord);color:var(--tx);border-radius:7px;padding:6px 9px;font-size:13px}
+.recherche input::placeholder{color:#66748a}
+
+/* Bible : grille 3 colonnes */
+.grilleLivres{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.grilleLivres.reduite{grid-template-columns:repeat(auto-fill,minmax(52px,1fr));max-height:96px;overflow:auto}
+.livre{background:#26303f;border:1px solid var(--bord);border-radius:6px;padding:6px 2px;text-align:center;font-size:12.5px;cursor:pointer}
+.livre:hover{background:#334054}
+.livre.actif{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.grilleChapitres{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:4px;margin-top:6px;overflow:auto}
+.chap{background:#242f3e;border:1px solid var(--bord);border-radius:5px;padding:6px 0;text-align:center;font-size:12.5px;cursor:pointer}
+.chap:hover{background:#334054}
+.chap.actif{background:var(--or);border-color:var(--or);color:#1a1400;font-weight:700}
+.grilleVersets{display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:3px;margin-top:6px;overflow:auto}
+.verset-mini{background:#1f2836;border:1px solid var(--bord);border-radius:4px;padding:4px 0;text-align:center;font-size:11.5px;cursor:pointer}
+.verset-mini:hover{background:#334054}
+.verset-mini.actif{background:var(--vert);border-color:var(--vert);color:#fff;font-weight:700}
+.separateur{height:1px;background:var(--bord);margin:7px 0}
+
+/* ---------------- zone 5 : gestion ---------------- */
+.texte-brochure{font-size:14.5px;line-height:1.55}
+.para{margin-bottom:9px;padding:4px 6px;border-radius:6px;border-left:3px solid transparent}
+.para.actif{background:#222c3b;border-left-color:var(--accent)}
+.para.premiere .ligne{color:#eef3fb}
+.lig{padding:1px 4px;border-radius:4px;cursor:pointer}
+.lig:hover{background:#2b3648}
+.lig.sel{background:var(--jaune);color:#1a1a00}
+.lig.proj{outline:2px solid var(--vert);outline-offset:-1px}
+.para-num{color:var(--tx2);font-size:11px;margin-right:4px;user-select:none}
+.verset-ligne{padding:4px 6px;border-radius:5px;cursor:pointer;display:flex;gap:7px}
+.verset-ligne:hover{background:#28313f}
+.verset-ligne.sel{background:#3a4a24}
+.verset-ligne.proj{background:#20403a;outline:1px solid var(--vert)}
+.verset-ligne .num{color:var(--accent);font-weight:700;min-width:26px;text-align:right}
+.unite{padding:6px 8px;border-radius:6px;border:1px solid var(--bord);margin-bottom:6px;cursor:pointer;white-space:pre-wrap;background:#1b2331}
+.unite:hover{background:#28313f}
+.unite.sel{border-color:var(--jaune);background:#3a4a24}
+.unite.live{border-color:var(--vert);background:#20403a}
+.etiquette{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--tx2);margin-right:6px}
+.barre-actions{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
+
+/* ---------------- boîtes de dialogue ---------------- */
+dialog{background:#1c2230;color:var(--tx);border:1px solid var(--bord);border-radius:10px;padding:14px;max-width:min(860px,92vw);max-height:88vh}
+dialog::backdrop{background:rgba(5,8,12,.72)}
+dialog h3{margin:0 0 8px;font-size:15px}
+dialog textarea{width:min(820px,86vw);height:46vh;background:#111823;color:var(--tx);border:1px solid var(--bord);border-radius:7px;padding:9px;font:13.5px/1.5 "Consolas",monospace}
+.boite-bas{display:flex;justify-content:flex-end;gap:7px;margin-top:10px}
+table.aide{border-collapse:collapse;font-size:12.5px;max-width:min(820px,86vw)}
+table.aide td{border-top:1px solid var(--bord);padding:5px 8px;vertical-align:top}
+table.aide td:first-child{color:var(--accent);white-space:nowrap;font-weight:600}
+
+/* ---------------- notification interne ---------------- */
+.notif{position:fixed;left:50%;bottom:14px;transform:translateX(-50%) translateY(30px);background:#0e1725;border:1px solid var(--bord);
+  border-radius:8px;padding:9px 13px;font-size:13px;opacity:0;transition:.18s;pointer-events:none;z-index:50;display:flex;gap:12px;align-items:center}
+.notif.visible{opacity:1;transform:translateX(-50%) translateY(0)}
+.notif button{background:var(--accent);border:0;border-radius:6px;padding:4px 9px;color:#fff}

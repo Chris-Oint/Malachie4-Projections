@@ -1,0 +1,84 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Malachie 4 Projections</title><style>
+*{box-sizing:border-box}body{margin:0;height:100vh;display:flex;flex-direction:column;background:#1b1f27;color:#e8ecf3;font:14px Arial,sans-serif}
+#bar{display:flex;gap:8px;align-items:center;padding:8px;background:#11141a}#bar .sp{flex:1}
+button{background:#2d3646;color:#fff;border:0;border-radius:6px;padding:8px 14px;cursor:pointer}button.on{background:#2e8b57}button:hover{filter:brightness(1.2)}
+#grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:8px;padding:8px;min-height:0}
+.z{background:#232a35;border:1px solid #384256;border-radius:8px;padding:8px;overflow:auto;min-height:0}.z h3{margin:0 0 6px;font-size:12px;color:#8fb0e0}
+.it{display:flex;justify-content:space-between;padding:5px 6px;border-radius:4px;cursor:pointer}.it:hover{background:#2f394a}.it.sel{background:#f5d90a;color:#000}.it.live{outline:2px solid #2e8b57}
+.x{color:#e66;font-weight:bold;padding:0 6px}#mini{position:relative;overflow:hidden;background:#000;width:100%;aspect-ratio:16/9}
+#mbox{position:absolute;left:0;top:0;transform-origin:0 0;display:flex;align-items:center;justify-content:center}#mtxt{text-align:center;line-height:1.2;white-space:pre-wrap;word-wrap:break-word}
+button.on{background:#2e8b57}.bg{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(30px,1fr));gap:3px;margin-top:8px}.bb,.cc{background:#2d3646;border-radius:4px;text-align:center;padding:4px 0;cursor:pointer}.bb.s,.cc.s{background:#2b5c8a}textarea{width:100%;height:160px;background:#11141a;color:#fff;border:1px solid #384256}
+input[type=text]{width:100%;padding:6px;margin:4px 0;background:#11141a;border:1px solid #384256;color:#fff;border-radius:4px}
+</style></head><body>
+<div id="bar"><b>Malachie 4 Projections</b><span id="scr"></span><span class="sp"></span>
+<button id="bProj">Projection</button><button id="bAff">Affichage</button><button id="bDis">Déconnecter</button></div>
+<div id="grid">
+<div class="z"><h3>ZONE 1 - Réserve</h3><div id="z1"></div></div>
+<div class="z"><h3>ZONE 2 - Réglages</h3>
+ Police <select id="font"><option>Arial</option><option>Georgia</option><option>Verdana</option><option>Times New Roman</option></select><br><br>
+ Taille <button data-k="size" data-d="-8">-</button><button data-k="size" data-d="8">+</button>
+ Marge <button data-k="margin" data-d="-10">-</button><button data-k="margin" data-d="10">+</button><br><br>
+ Fond <input type="color" id="bg" value="#000000"> Texte <input type="color" id="fg" value="#ffffff"></div>
+<div class="z"><h3>ZONE 3 - Écran-retour</h3><div id="mini"><div id="mbox"><div id="mtxt"></div></div></div></div>
+<div class="z"><h3>ZONE 4 - Bibliothèque</h3>
+ <button data-t="A" class="tab">A Cantiques</button><button data-t="B" class="tab">B Bible</button><button data-t="C" class="tab">C Brochures</button>
+ <input type="text" id="q" placeholder="Recherche rapide..."><div id="z4"></div></div>
+<div class="z"><h3 id="t5">ZONE 5 - Gestion</h3><div id="z5h"></div><div id="z5"></div></div>
+<div class="z"><h3>ZONE 6 - Historique</h3><div id="z6"></div></div>
+</div>
+<script src="render.js"></script><script src="data.js"></script>
+<script>
+const $=id=>document.getElementById(id), L=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}, S=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+let st={}, tab='A', cur=null, sel=-1, live=-1, reserve=L('res',[]), hist=L('his',[]), cfg=L('cfg',{font:'Arial',size:120,margin:80,bg:'#000000',fg:'#ffffff'}), projOn=true;
+const BOOKS=[['Gn',50],['Ex',40],['Lv',27],['Nb',36],['Dt',34],['Jos',24],['Jg',21],['Rt',4],['1S',31],['2S',24],['1R',22],['2R',25],['1Ch',29],['2Ch',36],['Esd',10],['Ne',13],['Est',10],['Jb',42],['Ps',150],['Pr',31],['Ec',12],['Ct',8],['Es',66],['Jr',52],['Lm',5],['Ez',48],['Dn',12],['Os',14],['Jl',3],['Am',9],['Ab',1],['Jon',4],['Mi',7],['Na',3],['Ha',3],['So',3],['Ag',2],['Za',14],['Ml',4],['Mt',28],['Mc',16],['Lc',24],['Jn',21],['Ac',28],['Rm',16],['1Co',16],['2Co',13],['Ga',6],['Ep',6],['Ph',4],['Col',4],['1Th',5],['2Th',3],['1Tm',6],['2Tm',4],['Tt',3],['Phm',1],['He',13],['Jc',5],['1P',5],['2P',3],['1Jn',5],['2Jn',1],['3Jn',1],['Jud',1],['Ap',22]];
+let bk=null,trad='VGR',z4p=false;const virt=L('virt',{}),ov=L('ed',{});
+function norm(e){if(!e||!e.tr)return e;const P=e.tr[trad]||Object.values(e.tr)[0],s=[],u=[];P.forEach(p=>{s.push(u.length);u.push(...p)});return{...e,units:u,starts:s,paras:P}}
+const find=id=>{let e=virt[id]||[...DATA.A,...DATA.C].find(x=>x.id===id);if(e&&ov[id])e={...e,units:ov[id]};return norm(e)};
+const pi=e=>e&&e.starts?e.starts.filter(s=>s<=sel).length-1:-1;
+function drawMini(){const m=$('mini'),w=st.screen?.w||1920,h=st.screen?.h||1080,k=m.clientWidth/w;const b=$('mbox');b.style.width=w+'px';b.style.height=h+'px';b.style.transform='scale('+k+')';m.style.height=(h*k)+'px';m.style.aspectRatio='auto';paint(b,$('mtxt'),{...st,affichage:true,bg:st.affichage?st.bg:'#333'}); if(!st.affichage)$('mtxt').textContent=st.text||'';}
+function draw1(){$('z1').innerHTML=reserve.map((r,i)=>`<div class="it" data-o="${r}">${find(r)?.name}<span><span class="x" data-r="${i}">×</span></span></div>`).join('')}
+function draw4(){const z=$('z4'),q=$('q').value.toLowerCase(),e=cur?find(cur):null;
+ document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t==tab));
+ if(z4p&&e&&e.paras){z.innerHTML='<div class="it" data-back="1">← Bibliothèque</div>'+e.paras.map((p,i)=>`<div class="it${pi(e)==i?' sel':''}" data-p="${i}">${i+1}. ${p[0].slice(0,38)}</div>`).join('');return}
+ if(tab=='B'){z.innerHTML='<div class="bg">'+BOOKS.map(([a])=>`<div class="bb${a==bk?' s':''}" data-bk="${a}" style="font-size:${bk?10:12}px">${a}</div>`).join('')+'</div>'+(bk?'<div class="cg">'+Array.from({length:BOOKS.find(b=>b[0]==bk)[1]},(_,i)=>`<div class="cc" data-ch="${i+1}">${i+1}</div>`).join('')+'</div>':'');return}
+ z.innerHTML=DATA[tab].filter(x=>x.name.toLowerCase().includes(q)).map(x=>`<div class="it" data-o="${x.id}">${x.name}<span>${Object.keys(x.tr||{}).join(' · ')}</span></div>`).join('')}
+function draw5(){const e=cur?find(cur):null;$('z5h').innerHTML=e?(e.tr?Object.keys(e.tr).map(k=>`<button data-tr="${k}" class="${k==trad?'on':''}">${k}</button>`).join(' '):'')+(DATA.A.some(x=>x.id==cur)?'<button data-ed="1">Éditer</button>':''):'';$('t5').textContent='ZONE 5 - '+(e?e.name:'Gestion');$('z5').innerHTML=e?e.units.map((u,i)=>`<div class="it${i==sel?' sel':''}${i==live?' live':''}" data-u="${i}">${u}</div>`).join(''):''}
+function draw6(){$('z6').innerHTML=hist.map((h,i)=>`<div class="it" data-h="${i}">${h.label}<span class="x" data-hx="${i}">×</span></div>`).join('')}
+function saveLast(){S('last',{cur,sel})}
+function open_(id){cur=id;z4p=!!find(id)?.paras;saveLast();sel=-1;live=-1;if(!reserve.includes(id)){reserve.push(id);S('res',reserve);draw1()}draw5();draw4()}
+function project(i){const e=find(cur);if(!e||i<0||i>=e.units.length)return;
+  if(live>=0&&live!=i){hist.unshift({id:cur,u:live,label:e.name+' #'+(live+1)});hist=hist.slice(0,30);S('his',hist);draw6()}
+  sel=live=i;saveLast();api.patch({text:e.units[i],label:e.name});draw5();draw4();document.querySelector('#z5 .it.sel')?.scrollIntoView({block:'nearest'})}
+document.addEventListener('click',e=>{const t=e.target;
+ if(t.dataset.r){reserve.splice(+t.dataset.r,1);S('res',reserve);draw1();return}
+ if(t.dataset.hx){hist.splice(+t.dataset.hx,1);S('his',hist);draw6();return}
+ if(t.dataset.t){tab=t.dataset.t;z4p=false;draw4();return}
+ if(t.dataset.bk){bk=t.dataset.bk;draw4();return}
+ if(t.dataset.ch){const id='bible:'+bk+':'+t.dataset.ch;virt[id]={id,name:bk+' '+t.dataset.ch,units:DATA.bible?.[bk]?.[t.dataset.ch]||['(Texte non chargé : ajouter la Bible dans data.js)']};S('virt',virt);open_(id);return}
+ if(t.dataset.back){z4p=false;draw4();return}
+ if(t.dataset.p){const e=find(cur);sel=e.starts[+t.dataset.p];draw5();draw4();document.querySelector('#z5 .it.sel')?.scrollIntoView({block:'nearest'});return}
+ if(t.dataset.tr){const e=find(cur),p=pi(e);trad=t.dataset.tr;const n=find(cur);if(sel>=0)sel=n.starts[Math.min(p,n.starts.length-1)];if(live>=0)project(sel);draw5();draw4();return}
+ if(t.dataset.ed){const e=find(cur);$('z5').innerHTML='<textarea id="edt">'+e.units.join('\n\n')+'</textarea><button id="edok">Enregistrer</button>';$('edok').onclick=()=>{ov[cur]=$('edt').value.split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean);S('ed',ov);draw5()};return}
+ const it=t.closest('.it');if(!it)return;
+ if(it.dataset.o)open_(it.dataset.o);
+ else if(it.dataset.h){const h=hist[+it.dataset.h];cur=h.id;live=-1;project(h.u)}
+ else if(it.dataset.u){sel=+it.dataset.u;draw5()}});
+document.addEventListener('dblclick',e=>{const p=e.target.closest('[data-p]');if(p){const en=find(cur);project(en.starts[+p.dataset.p]);return}const it=e.target.closest('[data-u]');if(it)project(+it.dataset.u)});
+document.addEventListener('keydown',e=>{if(e.target.tagName=='INPUT')return;
+ if(e.key=='Escape'){api.patch({affichage:false})}
+ else if(e.key=='F2'){api.patch({affichage:!st.affichage})}
+ else if(e.key=='F1'){togProj()}
+ else if(['ArrowDown','ArrowRight'].includes(e.key)){e.preventDefault();project(live<0?Math.max(sel,0):live+1)}
+ else if(['ArrowUp','ArrowLeft'].includes(e.key)){e.preventDefault();project(live<0?0:live-1)}
+ else if(e.key=='Enter'&&sel>=0)project(sel)});
+function togProj(){projOn=!projOn;$('bProj').classList.toggle('on',projOn);projOn?api.send('reconnect'):api.send('disconnect')}
+$('bProj').onclick=togProj;$('bAff').onclick=()=>api.patch({affichage:!st.affichage});$('bDis').onclick=()=>{projOn=false;$('bProj').classList.remove('on');api.send('disconnect')};
+document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{cfg[b.dataset.k]=Math.max(0,cfg[b.dataset.k]+ +b.dataset.d);S('cfg',cfg);api.patch(cfg)});
+$('font').onchange=e=>{cfg.font=e.target.value;S('cfg',cfg);api.patch(cfg)};$('bg').oninput=e=>{cfg.bg=e.target.value;S('cfg',cfg);api.patch(cfg)};$('fg').oninput=e=>{cfg.fg=e.target.value;S('cfg',cfg);api.patch(cfg)};
+$('q').oninput=draw4;
+let q=false;api.onState(s=>{st=s;if(!q){q=true;requestAnimationFrame(()=>{q=false;drawMini();
+ $('scr').textContent=s.screen.connected?'  ● Écran 2 connecté ('+s.screen.w+'x'+s.screen.h+')':'  ○ Recherche du 2e écran...';
+ $('bAff').classList.toggle('on',s.affichage)})}});
+$('font').value=cfg.font;$('bg').value=cfg.bg;$('fg').value=cfg.fg;$('bProj').classList.add('on');
+api.patch(cfg);{const l=L('last',null);if(l&&l.cur&&find(l.cur)){cur=l.cur;sel=l.sel}}draw1();draw4();draw5();draw6();window.onresize=drawMini;
+</script></body></html>

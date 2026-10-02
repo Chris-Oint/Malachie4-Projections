@@ -1,0 +1,9 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+html,body{margin:0;height:100%;overflow:hidden;background:transparent;cursor:none}
+#box{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#txt{text-align:center;line-height:1.2;white-space:pre-wrap;word-wrap:break-word}
+</style></head><body><div id="box"><div id="txt"></div></div>
+<script src="render.js"></script>
+<script>let st=null,q=false;const b=document.getElementById('box'),t=document.getElementById('txt');
+api.onState(s=>{st=s;if(!q){q=true;requestAnimationFrame(()=>{q=false;paint(b,t,st)})}});
+window.onerror=()=>true;</script></body></html>

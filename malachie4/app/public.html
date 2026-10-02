@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="../ressources/icon-64.png">
+<title>Malachie 4 — Écran public</title>
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:transparent}
+  body{cursor:none;user-select:none}
+  #box{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:transparent}
+  #txt{text-align:center;line-height:1.18;white-space:pre-wrap;word-wrap:break-word;margin:0}
+  /* aucune notification, aucune boîte de dialogue ne doit apparaître ici */
+</style>
+</head>
+<body>
+<div id="box"><div id="txt"></div></div>
+<script src="../render.js"></script>
+<script src="public.js"></script>
+</body>
+</html>

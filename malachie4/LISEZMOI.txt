@@ -1,0 +1,59 @@
+════════════════════════════════════════════════════════════════════════
+  MALACHIE 4 PROJECTIONS — logiciel de projection (Windows, Linux, macOS)
+  Bible · Cantiques · Brochures La Voix de Dieu / Shekinah
+  100 % hors ligne — aucun compte, aucune connexion Internet
+════════════════════════════════════════════════════════════════════════
+
+QUE VOULEZ-VOUS FAIRE ?
+
+1) VOIR LE LOGICIEL TOUT DE SUITE, SANS RIEN INSTALLER
+   → double-cliquez sur  demo.html
+     La démonstration se présente comme un vrai poste de travail : la fenêtre du
+     logiciel à gauche (les 6 zones), le vidéoprojecteur à droite, la barre des
+     tâches en bas. Cliquez un cantique, un chapitre ou la brochure, puis
+     double-cliquez pour projeter ; le bouton « Plein écran » montre le rendu réel.
+     Contenu de la démo (volontairement réduit) : un seul chapitre de la Bible
+     (Jean 3), une seule brochure, les cantiques du recueil.
+     Tout est dans ce seul fichier : rien à installer, aucune connexion.
+
+2) UTILISER LE VRAI LOGICIEL SUR WINDOWS
+   → voir  docs/INSTALLATION-Windows.md   (ou lancez  construire_windows.bat)
+     En résumé : installez Node.js, puis dans ce dossier :
+         npm install       (une seule fois)
+         npm start         (essayer)
+         npm run dist      (fabriquer l'installateur .exe + la version portable)
+
+3) UTILISER LA VERSION WEB (aucune installation, dans Chrome ou Edge)
+         npm run web
+     puis  http://localhost:8090/web/index.html
+     Le bouton « Projection » ouvre l'écran public dans une 2e fenêtre.
+
+4) COMPRENDRE COMMENT S'EN SERVIR PENDANT UN CULTE
+   → docs/GUIDE-UTILISATEUR.md   (gestes, raccourcis, dépannage)
+
+5) VERIFIER QUE TOUT FONCTIONNE
+         npm test
+     → 186 contrôles : fichiers, sécurité, contenus, gestes, écran public,
+       persistance, relance automatique. Détail : docs/RAPPORT_TESTS.md
+
+CE QU'IL Y A DANS LE DOSSIER
+
+   main.js, preload.js, render.js   le logiciel (processus principal + moteur de rendu)
+   app/                             les deux fenêtres (poste de contrôle, écran public)
+   content/                         Bible (66 livres, 31 169 versets), cantiques,
+                                    160 brochures VGR + Shekinah
+   web/                             version navigateur
+   demo.html                        démonstration en un seul fichier
+   outils/                          préparation du contenu, serveur web, fabrication de la démo
+   tests/                           les 4 suites de tests
+   docs/                            installation, guide, rapport de tests
+
+CE QUI EST GARANTI
+
+   · L'écran public ne s'affiche jamais sur l'écran de l'ordinateur.
+   · Débrancher puis rebrancher le projecteur : la projection revient seule (< 2 s).
+   · Le texte projeté ne dépasse jamais du cadre (réduction automatique).
+   · Échap vide l'écran instantanément.
+   · Si la fenêtre publique plante, elle redémarre seule avec la même image.
+   · Les réglages, la réserve (zone 1) et l'historique (zone 6) sont conservés
+     d'un culte à l'autre.

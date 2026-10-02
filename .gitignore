@@ -1,0 +1,16 @@
+# Ce qui n'est jamais envoyé sur GitHub (composants réinstallables, archives, caches)
+node_modules/
+livraison/
+dist/
+out/
+*.zip
+*.exe
+*.AppImage
+*.dmg
+.cache/
+.npm/
+.local/
+__pycache__/
+# fichiers temporaires
+*.tmp
+~$*

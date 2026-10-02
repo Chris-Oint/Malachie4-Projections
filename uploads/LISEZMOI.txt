@@ -1,0 +1,6 @@
+Malachie 4 Projections - v1.2
+Installation : installer Node.js, puis dans ce dossier :  npm install   puis   npm start
+Installateur Windows : npm run dist
+Touches : fleches = precedent/suivant, Entree = projeter, F1 = projection, F2 = affichage, Echap = vider l'ecran public
+Test automatique : npm test
+Contenu : remplacer data.js par la Bible, les cantiques et les brochures.

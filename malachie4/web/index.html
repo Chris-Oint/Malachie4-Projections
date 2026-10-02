@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="../ressources/icon-64.png">
+<title>Version web — Malachie 4 Projections — Poste de contrôle</title>
+<link rel="stylesheet" href="../app/control.css">
+</head>
+<body>
+
+<!-- ================= BARRE HAUTE (commandes de projection, alignées colonne 3) ================= -->
+<header id="barreHaute">
+  <div class="bh-gauche">
+    <span class="logo">Malachie&nbsp;4 <b>Projections</b></span>
+    <span id="etatEcran" class="etat cherche">◌ Recherche du 2<sup>e</sup> écran…</span>
+    <span id="etatContenu" class="etat discret"></span>
+  </div>
+  <div class="bh-droite">
+    <button id="bProjection" class="cmd on" title="Activer / désactiver la fenêtre de projection (F1)">Projection</button>
+    <button id="bAffichage" class="cmd on" title="Mode Affichage : fond noir + texte — ou transparent (F2)">Affichage</button>
+    <button id="bDeconnecter" class="cmd" title="Masquer l’écran public et libérer l’écran 2">Déconnecter</button>
+    <button id="bUrgence" class="cmd danger" title="Vider immédiatement l’écran public (Échap)">Écran vide</button>
+    <button id="bAide" class="cmd mini" title="Aide et raccourcis">?</button>
+  </div>
+</header>
+
+<!-- ================= GRILLE 3 × 2 ================= -->
+<main id="grille">
+
+  <!-- ZONE 1 — RÉSERVE -->
+  <section class="zone" id="zone1">
+    <h2>Zone 1 — Réserve <span class="compte" id="cptReserve"></span>
+      <button class="mini" id="bReserveVider" title="Vider la réserve">vider</button></h2>
+    <div class="corps" id="listeReserve"></div>
+  </section>
+
+  <!-- ZONE 2 — RÉGLAGES -->
+  <section class="zone" id="zone2">
+    <h2>Zone 2 — Réglages de projection</h2>
+    <div class="corps reglages">
+      <div class="ligne">
+        <label>Police</label>
+        <select id="rPolice">
+          <option value='Georgia, "Times New Roman", serif'>Georgia (serif)</option>
+          <option value='Arial, Helvetica, sans-serif'>Arial</option>
+          <option value='Verdana, Geneva, sans-serif'>Verdana</option>
+          <option value='"Times New Roman", Times, serif'>Times New Roman</option>
+          <option value='"Trebuchet MS", sans-serif'>Trebuchet MS</option>
+          <option value='"Courier New", monospace'>Courier New</option>
+        </select>
+      </div>
+      <div class="ligne">
+        <label>Taille</label>
+        <button class="mini" data-regle="size" data-pas="-10">−</button>
+        <span class="valeur" id="vTaille">120</span>
+        <button class="mini" data-regle="size" data-pas="10">+</button>
+        <label class="sec">Marge</label>
+        <button class="mini" data-regle="margin" data-pas="-10">−</button>
+        <span class="valeur" id="vMarge">80</span>
+        <button class="mini" data-regle="margin" data-pas="10">+</button>
+      </div>
+      <div class="ligne">
+        <label>Style</label>
+        <button class="mini" id="bGras">G</button>
+        <button class="mini" id="bItalique">I</button>
+        <button class="mini" id="bOmbre">Ombre</button>
+      </div>
+      <div class="ligne">
+        <label>Arrière-plan</label>
+        <input type="color" id="rFond" value="#000000" title="Couleur de fond">
+        <input type="color" id="rTexte" value="#ffffff" title="Couleur du texte">
+        <button class="mini" id="bImage">Image…</button>
+        <button class="mini" id="bImageOff">Noir</button>
+      </div>
+      <div class="ligne">
+        <label class="case"><input type="checkbox" id="rParType"> Mémoriser les réglages par type (Bible / cantique / brochure)</label>
+      </div>
+      <div class="ligne discret" id="infoReglages"></div>
+    </div>
+  </section>
+
+  <!-- ZONE 3 — ÉCRAN-RETOUR -->
+  <section class="zone" id="zone3">
+    <h2>Zone 3 — Écran-retour <span class="discret" id="infoEcran"></span></h2>
+    <div class="corps"><div id="miroir" class="miroir"></div></div>
+  </section>
+
+  <!-- ZONE 4 — BIBLIOTHÈQUE -->
+  <section class="zone" id="zone4">
+    <h2>Zone 4 — Bibliothèque</h2>
+    <div class="onglets">
+      <button class="onglet actif" data-onglet="A">A · Cantiques</button>
+      <button class="onglet" data-onglet="B">B · Bible</button>
+      <button class="onglet" data-onglet="C">C · Brochures</button>
+      <span class="souple"></span>
+      <span class="discret" id="filAriane"></span>
+    </div>
+    <div class="recherche">
+      <input type="search" id="recherche" placeholder="Recherche rapide — titre, mot, ou référence (ex. : Jn 3:16)">
+      <button class="mini" id="bEffacerRecherche" title="Effacer">✕</button>
+    </div>
+    <div class="corps" id="listeBiblio"></div>
+  </section>
+
+  <!-- ZONE 5 — GESTION -->
+  <section class="zone" id="zone5">
+    <h2>Zone 5 — <span id="titreGestion">Gestion</span>
+      <span class="outils" id="outilsGestion"></span></h2>
+    <div class="corps" id="corpsGestion"><p class="vide">Choisissez un cantique, un passage de la Bible ou une brochure en zone 4.</p></div>
+  </section>
+
+  <!-- ZONE 6 — HISTORIQUE -->
+  <section class="zone" id="zone6">
+    <h2>Zone 6 — Historique <span class="compte" id="cptHistorique"></span>
+      <button class="mini" id="bHistVider" title="Vider l’historique">vider</button></h2>
+    <div class="corps" id="listeHistorique"></div>
+  </section>
+</main>
+
+<!-- notifications internes (jamais sur l'écran public) -->
+<div id="notif" class="notif"></div>
+
+<!-- boîte d'édition des cantiques -->
+<dialog id="boiteEdition">
+  <h3 id="titreEdition">Éditer le cantique</h3>
+  <p class="discret">Une ligne vide crée un nouveau paragraphe (strophe, refrain, chœur).</p>
+  <textarea id="texteEdition" spellcheck="false"></textarea>
+  <div class="boite-bas">
+    <button class="cmd" id="bAnnulerEdition">Annuler</button>
+    <button class="cmd on" id="bEnregistrerEdition">Enregistrer</button>
+  </div>
+</dialog>
+
+<!-- aide -->
+<dialog id="boiteAide">
+  <h3>Raccourcis et gestes</h3>
+  <table class="aide">
+    <tr><td>Flèches ↑ ↓ ← →</td><td>Brochure : ligne précédente / suivante (sans saut). Bible : verset précédent / suivant. Cantique : strophe précédente / suivante.</td></tr>
+    <tr><td>Entrée</td><td>Projeter l’élément sélectionné.</td></tr>
+    <tr><td>Double-clic</td><td>Projeter immédiatement (verset, strophe, paragraphe ou ligne).</td></tr>
+    <tr><td>F1</td><td>Activer / couper la projection (fenêtre du 2<sup>e</sup> écran).</td></tr>
+    <tr><td>F2</td><td>Activer / couper le mode Affichage (transparent ↔ fond noir).</td></tr>
+    <tr><td>Échap</td><td>Vider immédiatement l’écran public.</td></tr>
+    <tr><td>Ctrl+F</td><td>Aller à la recherche rapide.</td></tr>
+    <tr><td>Ctrl+Z</td><td>Remettre le dernier élément retiré de la réserve (même place).</td></tr>
+    <tr><td>Ctrl+B / Ctrl+I</td><td>Gras / italique du texte projeté.</td></tr>
+    <tr><td>Clic sur un lien</td><td>L’élément passe en zone 1 (réserve) ; un cantique s’ouvre en zone 5 ; une brochure s’affiche en zone 4.</td></tr>
+    <tr><td>Croix ×</td><td>Supprimer (annulation possible pendant 5 secondes).</td></tr>
+    <tr><td>Bouton ＋</td><td>Réserve : rappeler l’élément et le projeter aussitôt. Bibliothèque : ajouter à la réserve.</td></tr>
+  </table>
+  <p class="discret" id="aideInfos"></p>
+  <div class="boite-bas">
+    <button class="cmd" id="bDossierDonnees">Ouvrir le dossier des données</button>
+    <button class="cmd" id="bVoirJournal">Journal</button>
+    <button class="cmd on" id="bFermerAide">Fermer</button>
+  </div>
+  <pre id="vueJournal" class="discret" style="display:none;max-height:220px;overflow:auto"></pre>
+</dialog>
+
+<script src="../render.js"></script>
+<script src="pont.js"></script>
+<script src="../app/control.js"></script>
+</body>
+</html>

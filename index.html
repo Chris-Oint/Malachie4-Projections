@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Bibliothèque du Message — Prédications & Bible</title>
+<meta name="theme-color" content="#0b1220">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="icon-btn" id="btnBack" hidden aria-label="Retour">←</button>
+  <div class="brand" id="brand">
+    <span class="brand-mark">✝</span>
+    <span class="brand-text">
+      <strong>La Bibliothèque du Message</strong>
+      <small>La Voix de Dieu · Shekinah · Louis Segond 1910</small>
+    </span>
+  </div>
+  <button class="icon-btn" id="btnTheme" aria-label="Thème">◐</button>
+  <button class="icon-btn" id="btnMenu" aria-label="Menu">☰</button>
+</header>
+
+<div id="menuPanel" class="menu-panel" hidden>
+  <button data-go="home">🏠 Accueil</button>
+  <button data-go="sermons">📚 Prédications &amp; brochures</button>
+  <button data-go="bible">📖 Bible Louis Segond 1910</button>
+  <button data-go="book">🕊️ Les Sept Âges de l'Église</button>
+  <button data-go="favorites">⭐ Favoris &amp; marque-pages</button>
+  <button data-go="search">🔎 Recherche approfondie</button>
+  <button data-go="help">ℹ️ Aide &amp; hors-ligne</button>
+</div>
+
+<main id="app">
+
+  <!-- ACCUEIL -->
+  <section class="view" id="view-home">
+    <div class="hero">
+      <h1>La Bibliothèque du Message</h1>
+      <p class="muted">William Marrion Branham — <b>2 168 textes</b> dont <b>615 en traduction La Voix de Dieu</b> (dont les 400 brochures officielles VGR) et <b>1 210 Shekinah</b>, plus la Bible <b>Louis Segond 1910</b>. Tout est consultable hors-ligne.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+
+    <div class="continue-card" id="continueCard" hidden>
+      <div class="cc-label">Reprendre la lecture</div>
+      <div class="cc-title" id="ccTitle">—</div>
+      <div class="cc-actions">
+        <button class="btn primary" id="ccOpen">Continuer</button>
+        <button class="btn ghost" id="ccClear">Retirer</button>
+      </div>
+    </div>
+
+    <div class="tiles">
+      <button class="tile" data-go="sermons"><span class="tile-ico">📚</span><span class="tile-t">Prédications &amp; brochures</span><span class="tile-s" id="tileSermons"></span></button>
+      <button class="tile" data-go="sermons" id="tileVgr"><span class="tile-ico">✨</span><span class="tile-t">La Voix de Dieu (VGR)</span><span class="tile-s" id="tileVgrS"></span></button>
+      <button class="tile" data-go="bible"><span class="tile-ico">📖</span><span class="tile-t">Bible Louis Segond 1910</span><span class="tile-s">66 livres · 31 169 versets</span></button>
+      <button class="tile" data-go="book"><span class="tile-ico">🕊️</span><span class="tile-t">Les Sept Âges de l'Église</span><span class="tile-s">Le livre écrit (10 chapitres)</span></button>
+      <button class="tile" data-go="favorites"><span class="tile-ico">⭐</span><span class="tile-t">Favoris &amp; marque-pages</span><span class="tile-s" id="tileFav"></span></button>
+      <button class="tile" data-go="search"><span class="tile-ico">🔎</span><span class="tile-t">Recherche approfondie</span><span class="tile-s">Chercher dans tout le texte</span></button>
+      <button class="tile" data-go="help"><span class="tile-ico">📶</span><span class="tile-t">Mode hors-ligne</span><span class="tile-s">Installer et tout télécharger</span></button>
+    </div>
+
+    <div class="card" id="lastSeals"></div>
+  </section>
+
+  <!-- PRÉDICATIONS -->
+  <section class="view" id="view-sermons" hidden>
+    <div class="filters">
+      <input id="q" type="search" placeholder="Rechercher un titre, un code (ex : 65-1128E)…" autocomplete="off">
+      <div class="chips" id="chipsTrad"></div>
+      <div class="chips" id="chipsYear"></div>
+      <div class="filter-row">
+        <select id="sortSelect">
+          <option value="code-asc">Chronologique (ancien → récent)</option>
+          <option value="code-desc">Chronologique (récent → ancien)</option>
+          <option value="title-asc">Alphabétique (A → Z)</option>
+          <option value="title-desc">Alphabétique (Z → A)</option>
+          <option value="len-desc">Les plus longs d'abord</option>
+        </select>
+        <label class="switch"><input type="checkbox" id="onlyAudio"> audio dispo</label>
+        <span class="muted count" id="sermonCount"></span>
+      </div>
+    </div>
+    <div id="sermonList" class="list"></div>
+    <div id="sermonSentinel" class="sentinel"></div>
+  </section>
+
+  <!-- LECTEUR DE PRÉDICATION -->
+  <section class="view reader" id="view-sermon" hidden>
+    <article>
+      <div class="reader-head">
+        <div class="rh-code" id="rhCode"></div>
+        <h2 id="rhTitle"></h2>
+        <div class="rh-meta" id="rhMeta"></div>
+        <div class="rh-tools">
+          <button class="btn small" id="btnFavSermon">☆ Favori</button>
+          <button class="btn small" id="btnMark">🔖 Marque-page</button>
+          <button class="btn small" id="btnSearchInSermon">🔎 Dans ce texte</button>
+          <button class="btn small" id="btnCopySermon">⧉ Copier</button>
+          <a class="btn small" id="btnPdf" target="_blank" rel="noopener">PDF</a>
+          <a class="btn small" id="btnMp3" target="_blank" rel="noopener">🎧 Audio</a>
+          <button class="btn small" id="fontMinus">A−</button>
+          <button class="btn small" id="fontPlus">A+</button>
+        </div>
+        <div class="search-in" id="searchInBox" hidden>
+          <input id="searchInInput" type="search" placeholder="Mot ou phrase à trouver dans ce texte…">
+          <span class="muted" id="searchInCount"></span>
+          <button class="btn small" id="searchInClose">✕</button>
+        </div>
+      </div>
+      <div id="sermonBody" class="text-body"></div>
+      <nav class="reader-nav">
+        <button class="btn" id="prevSermon">← Précédent</button>
+        <button class="btn" id="nextSermon">Suivant →</button>
+      </nav>
+    </article>
+  </section>
+
+  <!-- BIBLE -->
+  <section class="view" id="view-bible" hidden>
+    <div class="filters">
+      <input id="bibleQ" type="search" placeholder="Référence (ex : Jean 3:16, Ps 23) ou recherche…" autocomplete="off">
+      <div class="chips" id="chipsTestament"></div>
+      <span class="muted count" id="bibleCount"></span>
+    </div>
+    <div id="bibleSearchResults" class="list" hidden></div>
+    <div id="booksGrid" class="books-grid"></div>
+    <div id="chapterPicker" hidden></div>
+  </section>
+
+  <!-- LECTURE BIBLE -->
+  <section class="view reader" id="view-bible-read" hidden>
+    <article>
+      <div class="reader-head">
+        <div class="rh-code" id="brRef"></div>
+        <div class="rh-tools">
+          <button class="btn small" id="brPrev">←</button>
+          <button class="btn small" id="brNext">→</button>
+          <button class="btn small" id="brFav">☆ Favori</button>
+          <button class="btn small" id="brCopy">⧉ Copier</button>
+          <button class="btn small" id="brFontMinus">A−</button>
+          <button class="btn small" id="brFontPlus">A+</button>
+        </div>
+      </div>
+      <div id="bibleBody" class="text-body bible-body"></div>
+    </article>
+  </section>
+
+  <!-- LIVRE SEPT ÂGES -->
+  <section class="view" id="view-book" hidden>
+    <div class="hero small"><h1>Les Sept Âges de l'Église</h1>
+      <p class="muted">L'exposé écrit de William Marrion Branham — édition La Voix de Dieu.</p></div>
+    <div id="bookToc" class="list"></div>
+  </section>
+  <section class="view reader" id="view-book-read" hidden>
+    <article>
+      <div class="reader-head">
+        <div class="rh-code" id="bkcTitle"></div>
+        <div class="rh-tools">
+          <button class="btn small" id="bkPrev">←</button>
+          <button class="btn small" id="bkNext">→</button>
+          <button class="btn small" id="bkFontMinus">A−</button>
+          <button class="btn small" id="bkFontPlus">A+</button>
+        </div>
+      </div>
+      <div id="bookBody" class="text-body"></div>
+    </article>
+  </section>
+
+  <!-- FAVORIS -->
+  <section class="view" id="view-favorites" hidden>
+    <div class="hero small"><h1>Favoris &amp; marque-pages</h1></div>
+    <div id="favList"></div>
+  </section>
+
+  <!-- RECHERCHE APPROFONDIE -->
+  <section class="view" id="view-search" hidden>
+    <div class="hero small"><h1>Recherche approfondie</h1>
+      <p class="muted">Cherchez un mot ou une phrase dans le texte complet des 2 168 prédications et brochures (dont les 400 traductions officielles de La Voix de Dieu). La première recherche peut prendre du temps (les textes sont lus un par un), ensuite tout est en cache.</p></div>
+    <div class="filters">
+      <input id="deepQ" type="search" placeholder="Ex : colombe, serpent, épouse, baptême…">
+      <div class="filter-row">
+        <button class="btn primary" id="deepGo">Chercher</button>
+        <button class="btn ghost" id="deepStop" disabled>Arrêter</button>
+        <span class="muted" id="deepStatus"></span>
+      </div>
+      <div class="progress"><div class="progress-bar" id="deepBar"></div></div>
+    </div>
+    <div id="deepResults" class="list"></div>
+  </section>
+
+  <!-- AIDE -->
+  <section class="view" id="view-help" hidden>
+    <div class="hero small"><h1>Mode hors-ligne &amp; installation</h1></div>
+    <div class="card">
+      <h3>Tout télécharger</h3>
+      <p class="muted">Enregistre les 2 168 textes (dont les 400 brochures officielles de La Voix de Dieu), la Bible et le livre dans le stockage du navigateur : l'application fonctionnera ensuite sans internet.</p>
+      <button class="btn primary" id="btnOfflineAll">Télécharger tout pour hors-ligne</button>
+      <button class="btn ghost" id="btnOfflineClear">Vider le cache</button>
+      <div class="progress"><div class="progress-bar" id="offBar"></div></div>
+      <p class="muted" id="offStatus"></p>
+      <p class="muted" id="storageInfo"></p>
+    </div>
+    <div class="card">
+      <h3>Installer l'application</h3>
+      <p class="muted">Android / Chrome : menu ⋮ → « Ajouter à l'écran d'accueil ». iPhone / Safari : Partager → « Sur l'écran d'accueil ».</p>
+      <button class="btn" id="btnInstall" hidden>Installer maintenant</button>
+    </div>
+    <div class="card">
+      <h3>Sources</h3>
+      <p class="muted">Textes français : branham.fr (Restauration Promise) — traductions La Voix de Dieu (VGR) et Shekinah Publications — et la bibliothèque officielle de <b>Voice of God Recordings</b> (400 brochures VGR téléchargées depuis themessage.com). Bible : Louis Segond 1910 (domaine public). Les PDF/MP3 originaux restent accessibles en ligne depuis chaque prédication.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="tabbar">
+  <button data-go="home" class="active"><span>🏠</span>Accueil</button>
+  <button data-go="sermons"><span>📚</span>Prédications</button>
+  <button data-go="bible"><span>📖</span>Bible</button>
+  <button data-go="favorites"><span>⭐</span>Favoris</button>
+</nav>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
