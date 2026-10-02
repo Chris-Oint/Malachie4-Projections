@@ -94,6 +94,11 @@ Fonctionne ensuite **hors-ligne** (l'application s'installe depuis le navigateur
 
 ---
 
+> **Où sont les données ?** Sur ce dépôt, dans `data/` (77 Mo). L'espace de travail
+> de la machine de travail ne garde que le logiciel léger : les textes lourds se
+> récupèrent par `git clone` ou par `telecharger_brochures_VGR.sh`, et tout ce qui est
+> envoyé ici y reste (aucun fichier n'est jamais effacé par `pousser_sur_github.sh`).
+
 ## 3. Ce qu'il y a à la racine du dépôt
 
 ```
@@ -106,7 +111,7 @@ telecharger_brochures_VGR.sh      télécharge les 399 PDF officiels (~130 Mo)
 telecharger_tous_les_PDF.sh       télécharge l'ensemble des documents
 scripts/                          outils de collecte et d'extraction (Python)
 uploads/                          cahier des charges et prototype d'origine
-pousser_sur_github.sh             renvoie le travail sur GitHub en une commande
+pousser_sur_github.sh             renvoie le travail sur GitHub en une commande (n'efface jamais rien)
 ```
 
 **Tests de la bibliothèque** : `node tests/test_app.mjs`, `tests/test_vgr.mjs`,
