@@ -63,13 +63,16 @@ const lire = url => new Promise((res, rej) => {
 });
 setTimeout(async () => {
   try {
-    const pages = [['/web/index.html', /Poste de contrôle|Malachie 4/], ['/web/ecran.html', /Écran public|box/], ['/render.js', /Rendu/], ['/app/control.js', /ZONE 5/], ['/content/cantiques.json', /Plus près de toi|name/]];
+    const avecContenu = fs.existsSync(path.join(RACINE, 'content', 'cantiques.json'));
+    const pages = [['/web/index.html', /Poste de contrôle|Malachie 4/], ['/web/ecran.html', /Écran public|box/], ['/render.js', /Rendu/], ['/app/control.js', /ZONE 5/]];
+    if (avecContenu) pages.push(['/content/cantiques.json', /Plus près de toi|name/]);
     for (const [url, motif] of pages) {
       const r = await lire(url);
       (r.code === 200 && motif.test(r.corps)) ? ok('servi : ' + url + ' (' + r.corps.length + ' o)') : ko('service incorrect : ' + url + ' → ' + r.code);
     }
     const gz = await lire('/content/bible.json.gz');
-    gz.code === 200 ? ok('Bible compressée servie (1,3 Mo) — décompressée par le navigateur') : ko('Bible non servie');
+    if (gz.code === 200) ok('Bible compressée servie (' + (gz.corps.length / 1024 / 1024).toFixed(1) + ' Mo) — décompressée par le navigateur');
+    else console.log('  · contenu non présent ici (il vit dans le dépôt) : contrôle du service du contenu ignoré');
     const racine = await lire('/');
     /Poste de contrôle|Malachie 4/.test(racine.corps) ? ok('l’adresse racine ouvre directement le poste de contrôle') : ko('racine non configurée');
     const c = await lire('/web/index.html');

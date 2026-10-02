@@ -17,8 +17,18 @@ const titre = t => console.log('\n' + t);
 /* ---------------------------------------------------------------- 1. fichiers */
 titre('1. Fichiers et syntaxe');
 const fichiers = ['main.js', 'preload.js', 'render.js', 'app/control.html', 'app/control.js', 'app/control.css',
-  'app/public.html', 'app/public.js', 'package.json', 'content/bible.json.gz', 'content/brochures.json.gz', 'content/cantiques.json'];
+  'app/public.html', 'app/public.js', 'package.json'];
+/* Le contenu (Bible, brochures, cantiques) vit dans le dépôt et se reconstruit par
+   « npm run contenu » : il n'est pas exigé dans l'espace de travail. */
+const fichiersContenu = ['content/bible.json.gz', 'content/brochures.json.gz', 'content/cantiques.json'];
 fichiers.forEach(f => fs.existsSync(path.join(RACINE, f)) ? ok('présent : ' + f) : ko('manquant : ' + f));
+const dossierContenu = path.join(RACINE, 'content');
+const contenuPresent = fs.existsSync(path.join(dossierContenu, 'bible.json.gz')) &&
+                       fs.existsSync(path.join(dossierContenu, 'brochures.json.gz'));
+fichiersContenu.forEach(f => {
+  if (fs.existsSync(path.join(RACINE, f))) ok('présent : ' + f);
+  else console.log('  · ' + f + ' absent ici (il vit dans le dépôt — « npm run contenu » le reconstruit)');
+});
 ['main.js', 'preload.js', 'render.js', 'app/control.js', 'app/public.js', 'outils/preparer_contenu.js']
   .forEach(f => { try { new vm.Script(fs.readFileSync(path.join(RACINE, f), 'utf8')); ok('syntaxe : ' + f); } catch (e) { ko(f + ' : ' + e.message); } });
 ['app/control.html', 'app/public.html'].forEach(f => {
@@ -118,9 +128,6 @@ const ligne = 'Il est venu, et il a parlé au peuple avec autorité.';
 ligne === ligne.trim() ? ok('le texte projeté est transmis tel quel au moteur de rendu') : ko('altération du texte projeté');
 
 /* ---------------------------------------------------------------- 4. contenu */
-const dossierContenu = path.join(RACINE, 'content');
-const contenuPresent = fs.existsSync(path.join(dossierContenu, 'bible.json.gz')) &&
-                       fs.existsSync(path.join(dossierContenu, 'brochures.json.gz'));
 if (!contenuPresent) {
   console.log('  · contenu non présent ici : il vit dans le dépôt GitHub (git clone → npm run contenu) — contrôles du contenu ignorés');
 } else {

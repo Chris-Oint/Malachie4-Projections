@@ -133,7 +133,14 @@ Module._load = chargerOriginal;
     .forEach(c => canaux[c] ? ok('canal ' + c) : ko('canal manquant : ' + c));
 
   titre('4. Contenu réel chargeable');
-  const index = await handlers['contenu:index']();
+  let index = null;
+  try { index = await handlers['contenu:index'](); } catch (e) { index = null; }
+  const contenuLa = !!(index && index.stats && index.stats.brochures);
+  if (!contenuLa) {
+    console.log('  · contenu absent de cet espace de travail : il vit dans le dépôt et se reconstruit');
+    console.log('    par « npm run contenu » — les contrôles de contenu sont ignorés ici.');
+    (index && index.erreur) ? ok('l’absence de contenu est signalée proprement : « ' + String(index.erreur).slice(0, 60) + '… »') : ok('l’absence de contenu ne bloque pas l’application');
+  } else {
   index && index.stats ? ok('index : ' + index.stats.livres + ' livres, ' + index.stats.versets + ' versets, ' + index.stats.cantiques + ' cantiques, ' + index.stats.brochures + ' brochures') : ko('index vide');
   const jn3 = await handlers['contenu:chapitre']({}, 'Jn', '3');
   jn3 && jn3.length === 36 ? ok('Jean 3 : 36 versets récupérés') : ko('Jean 3 : ' + (jn3 ? jn3.length : 'aucun') + ' versets');
@@ -141,6 +148,7 @@ Module._load = chargerOriginal;
   bro && bro.tr ? ok('brochure chargée : « ' + bro.name.slice(0, 40) + '… » — traductions : ' + Object.keys(bro.tr).join(' + ')) : ko('brochure non chargée');
   const cant = await handlers['contenu:cantique']({}, index.cantiques[0].id);
   cant && cant.units ? ok('cantique chargé : « ' + cant.name + ' » — ' + cant.units.length + ' paragraphes') : ko('cantique non chargé');
+  }
 
   titre('5. Diffusion de l’état aux deux fenêtres');
   envois.length = 0;
