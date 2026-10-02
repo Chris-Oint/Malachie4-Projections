@@ -89,6 +89,10 @@ gauche, vidéoprojecteur à droite, barre des tâches en bas — avec un contenu
 
 ---
 
+> **Le contenu (Bible, brochures, cantiques) est fourni dans le dépôt.** Si le dossier
+> `malachie4/content/` manque sur votre poste : `npm run contenu` le reconstruit depuis la
+> bibliothèque `data/` (dans les deux cas, aucun accès à Internet n'est nécessaire).
+
 ## D. Réglages à faire une fois sur l'ordinateur de l'église
 
 1. **Étendre l'affichage** : `Windows` + `P` → *Étendre* (jamais « Dupliquer »).

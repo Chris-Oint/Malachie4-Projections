@@ -49,6 +49,13 @@ CE QU'IL Y A DANS LE DOSSIER
    tests/                           les 4 suites de tests
    docs/                            installation, guide, rapport de tests
 
+OÙ EST LE CONTENU ?
+   Le dossier  content/  (Bible, brochures, cantiques) est fourni dans le dépôt.
+   S'il manque sur votre poste, une seule commande le reconstruit depuis la
+   bibliothèque  data/  du dépôt :
+         npm run contenu
+   (ou, pour la bibliothèque entière : node outils/preparer_contenu.js --max=0)
+
 CE QUI EST GARANTI
 
    · L'écran public ne s'affiche jamais sur l'écran de l'ordinateur.
