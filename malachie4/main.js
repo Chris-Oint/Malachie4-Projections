@@ -200,6 +200,7 @@ function chargerContenu() {
       cantiques: contenu.cantiques.length,
       brochures: contenu.brochures.length,
       doubleTraduction: contenu.brochures.filter(b => b.tr && b.tr.VGR && b.tr.Shekina).length,
+      branhamFr: contenu.brochures.filter(b => b.tr && b.tr.BF).length,
       ms: Date.now() - t0
     };
     journal('contenu chargé', JSON.stringify(contenu.stats));

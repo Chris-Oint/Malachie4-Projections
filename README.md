@@ -26,26 +26,40 @@ rebranche le projecteur (< 2 s), et le texte ne dépasse jamais du cadre.
   `malachie4/docs/RAPPORT_TESTS.md` (186 contrôles) et `npm test`.
 
 Le logiciel embarque : **66 livres** de la Bible (31 169 versets), **160 brochures**
-toutes en double traduction, et le recueil de cantiques (modifiable dans le logiciel).
+(149 en double traduction **VGR + Shekinah**, 11 en **BF** — branham.fr) et le recueil de
+cantiques (modifiable dans le logiciel).
 
 ---
 
 ## 2. La Bibliothèque du Message
 
 Bibliothèque **hors-ligne** en français : les prédications et brochures de
-**William Marrion Branham** — traduction **La Voix de Dieu** (VGR) et **Shekinah
-Publications** — la **Bible Louis Segond 1910** complète, et le livre écrit
+**William Marrion Branham** dans **trois traductions** — **La Voix de Dieu** (VGR, Voice
+of God Recordings), **Shekinah Publications** et **BF** (branham.fr — Restauration
+Promise) — la **Bible Louis Segond 1910** complète, et le livre écrit
 **« Les Sept Âges de l'Église »**.
 
-### La collection La Voix de Dieu (VGR) — maximisée
+### La règle de la collection
 
-| | Nombre |
+> **Trois traductions, rien d'autre** : tout le **Shekinah** (1 210), tout le
+> **La Voix de Dieu** officiel (**VGR**, 399), et **BF** — les brochures que
+> **branham.fr** a traduites **seule** (11). Cette troisième traduction **n'est jamais
+> appelée « La Voix de Dieu »** : elle porte l'abrégé **BF** de sa source.
+>
+> · une brochure **déjà présente en Shekinah** n'est pas doublée par BF (204 cas écartés) ;
+> · une brochure **déjà en VGR officiel** n'est pas doublée non plus (202 cas écartés) ;
+> · **MS** (Message du temps), **BBV** et toutes les autres traductions ont été
+>   **retirées** de la collection et de la bibliothèque (547 textes, fichiers compris) ;
+> · l'index **COD** reste écarté, comme demandé.
+
+### Contenu de la bibliothèque
+
+| Traduction | Textes |
 |---|---|
-| **Brochures officielles La Voix de Dieu (VGR)** — bibliothèque officielle Voice of God Recordings | **399** |
-| dont **audio** officiel (M4A) | 380 |
-| dont **texte français extrait** et lisible hors-ligne dans l'app | 389 (10 sont des PDF scannés sans couche texte) |
-| **+ traductions VGR du site branham.fr** (dont 13 introuvables dans la liste officielle) | 215 |
-| **TOTAL entrées « La Voix de Dieu »** | **614 textes** |
+| **Shekinah Publications** | 1 210 |
+| **La Voix de Dieu** — VGR officiel (399, dont 380 avec audio officiel) | 399 |
+| **BF** — branham.fr (Restauration Promise) | 11 |
+| **TOTAL** | **1 620 textes** |
 
 Comment le maximum a été atteint :
 1. **Bibliothèque officielle VGR** identifiée via l'API interne de *themessage.com*
@@ -57,29 +71,26 @@ Comment le maximum a été atteint :
    césures, paragraphes numérotés).
 3. **Sondage du serveur VGR** (`download.branham.org/pdf/FRN/`) : 243 fichiers nommés
    confirmés — tous déjà inclus dans les 399.
-4. **branham.fr** : 215 textes VGR, dont **13 absents** de la liste officielle → ajoutés.
+4. **branham.fr** : après application de la règle, **11 brochures** ne sont traduites
+   que par cette source (63-0707 et la série 65-0000 → 65-0009) : elles portent l'étiquette
+   **BF**. Les 204 autres doublonnaient Shekinah, les 202 autres le VGR officiel.
 5. **Index COD exclu** (comme demandé : *MS-COD-Index* « Conduite, ordre et doctrine »).
+
+> Le retraitement est reproductible : **`python3 scripts/retraiter_collection.py`**
+> (option `--simulation` pour voir le résultat sans rien modifier) et vérifié par
+> **`node tests/test_collection.mjs`** (19 contrôles).
 
 > Les **PDF officiels (130 Mo)** ne sont pas stockés ici (trop volumineux) : tout est
 > téléchargeable en une commande avec **`telecharger_brochures_VGR.sh`**, ou brochure par
 > brochure depuis l'application (bouton **PDF**).
-
-### Contenu total de la bibliothèque
-
-| Élément | Quantité |
-|---|---|
-| Prédications et brochures Shekinah | 1 210 |
-| La Voix de Dieu (dont 399 officielles VGR) | 614 |
-| Message du temps (MS) | 334 |
-| Bible / autres | 9 |
-| **TOTAL** | **2 167 textes** |
 | Bible Louis Segond 1910 | 66 livres · **31 169 versets** |
 | « Les Sept Âges de l'Église » | 10 chapitres |
 
 **Sources** : bibliothèque officielle Voice of God Recordings (themessage.com /
-download.branham.org) pour les 399 brochures VGR ; branham.fr (Restauration Promise)
-pour Shekinah/MS ; Bible Louis Segond 1910 (domaine public).
-**Écarté volontairement** : les livres COD 1 et 2.
+download.branham.org) pour les 399 brochures **VGR** ; **Shekinah Publications** (via
+branham.fr) pour les 1 210 textes Shekinah ; **branham.fr (Restauration Promise)** pour
+les 11 textes **BF** ; Bible Louis Segond 1910 (domaine public).
+**Écartés volontairement** : les traductions MS, BBV et autres, et les livres COD 1 et 2.
 
 ### Utiliser la bibliothèque
 
@@ -114,6 +125,8 @@ uploads/                          cahier des charges et prototype d'origine
 pousser_sur_github.sh             renvoie le travail sur GitHub en une commande (n'efface jamais rien)
 ```
 
-**Tests de la bibliothèque** : `node tests/test_app.mjs`, `tests/test_vgr.mjs`,
-`tests/test_deep.mjs`, `tests/test_bible_standalone.mjs`
-(2 167 entrées, 614 textes VGR, 399 officielles, 66 livres, 31 169 versets).
+**Tests de la bibliothèque** (serveur local sur le port 8080) :
+`node tests/test_collection.mjs` (la règle de collection, 19 contrôles),
+`tests/test_app.mjs`, `tests/test_vgr.mjs`, `tests/test_deep.mjs`,
+`tests/test_bible_standalone.mjs`
+(1 620 textes = 1 210 Shekinah + 399 La Voix de Dieu + 11 BF, 66 livres, 31 169 versets).

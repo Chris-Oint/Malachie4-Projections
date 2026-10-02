@@ -61,9 +61,19 @@ installation d'Electron n'est nécessaire. Dernière exécution : **186 contrôl
 ## 4. Contenu réellement embarqué
 
 * **Bible Louis Segond** : 66 livres, **31 169 versets** (Gn → Ap).
-* **Brochures** : **160** brochures officielles, **toutes en VGR + Shekinah** (bascule de
-  traduction disponible sur chacune). Régénération complète (614 brochures, 53 Mo) :
-  `node outils/preparer_contenu.js --bibliotheque=<dossier data> --max=0`.
+* **Brochures** : **160** brochures, dans les **trois traductions de la collection** :
+  **149 en double traduction VGR + Shekinah** (la bascule est disponible sur chacune) et
+  **11 en BF** (branham.fr / Restauration Promise — les seules brochures que cette source a
+  traduites ; cette traduction n'est jamais appelée « La Voix de Dieu »).
+  `MS`, `BBV` et toutes les autres traductions sont **écartées** de la collection.
+  Régénération complète (1 620 brochures, ~58 Mo de contenu) :
+  `node outils/preparer_contenu.js --bibliotheque=<dossier data> --max=0`
+  — sans `--max`, le contenu embarqué reste plus léger ; avec `--max=160`, l'application
+  garde les trois traductions représentées.
+
+> La règle de collection est vérifiée automatiquement à la racine du dépôt :
+> `node tests/test_collection.mjs` (19 contrôles : 1 620 textes = 1 210 Shekinah +
+> 399 La Voix de Dieu + 11 BF, aucun MS/BBV, aucun doublon BF, filtres et lecture).
 * **Cantiques** : recueil de démonstration (8 cantiques, 3 à 5 paragraphes),
   modifiable depuis la zone 5 ; les cantiques enregistrés sont conservés à part.
 

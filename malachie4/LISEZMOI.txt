@@ -1,6 +1,6 @@
 ════════════════════════════════════════════════════════════════════════
   MALACHIE 4 PROJECTIONS — logiciel de projection (Windows, Linux, macOS)
-  Bible · Cantiques · Brochures La Voix de Dieu / Shekinah
+  Bible · Cantiques · Brochures La Voix de Dieu / Shekinah / BF (branham.fr)
   100 % hors ligne — aucun compte, aucune connexion Internet
 ════════════════════════════════════════════════════════════════════════
 
@@ -41,7 +41,8 @@ CE QU'IL Y A DANS LE DOSSIER
    main.js, preload.js, render.js   le logiciel (processus principal + moteur de rendu)
    app/                             les deux fenêtres (poste de contrôle, écran public)
    content/                         Bible (66 livres, 31 169 versets), cantiques,
-                                    160 brochures VGR + Shekinah
+                                    160 brochures : 149 en VGR + Shekinah,
+                                    11 en BF (branham.fr) — trois traductions, rien d'autre
    web/                             version navigateur
    demo.html                        démonstration en un seul fichier
    outils/                          préparation du contenu, serveur web, fabrication de la démo

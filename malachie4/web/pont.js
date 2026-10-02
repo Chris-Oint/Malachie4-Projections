@@ -57,7 +57,8 @@
         versets: Object.values(cache.bible).reduce((s, l) => s + Object.values(l).reduce((t, c) => t + c.length, 0), 0),
         cantiques: cache.cantiques.length,
         brochures: cache.brochures.length,
-        doubleTraduction: cache.brochures.filter(b => b.tr && b.tr.VGR && b.tr.Shekina).length
+        doubleTraduction: cache.brochures.filter(b => b.tr && b.tr.VGR && b.tr.Shekina).length,
+        branhamFr: cache.brochures.filter(b => b.tr && b.tr.BF).length
       },
       cantiques: cache.cantiques.map(c => ({ id: c.id, name: c.name, units: c.units.length, types: c.types || null })),
       bible: Object.keys(cache.bible).map(ab => ({ ab, chapitres: Object.keys(cache.bible[ab]).length })),

@@ -1,3 +1,7 @@
+/* les fichiers sont lus depuis CE dépôt (pas depuis un autre dossier) */
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+const RACINE = join(dirname(fileURLToPath(import.meta.url)), '..');
 import { JSDOM, VirtualConsole } from 'jsdom';
 import fs from 'fs';
 import http from 'node:http';
@@ -16,7 +20,7 @@ function nodeFetch(url, opts = {}) {
 }
 
 const BASE = 'http://127.0.0.1:8080/';
-const html = fs.readFileSync('/home/user/index.html', 'utf8');
+const html = fs.readFileSync(join(RACINE, 'index.html'), 'utf8');
 const vc = new VirtualConsole();
 const errors = [];
 vc.on('jsdomError', e => errors.push('jsdomError: ' + e.message));
@@ -38,7 +42,7 @@ window.IntersectionObserver = class { constructor(cb){ this.cb=cb; } observe(){}
 window.navigator.storage = { estimate: async () => ({ usage: 1e6, quota: 1e9 }) };
 window.matchMedia = window.matchMedia || (() => ({ matches:false, addListener(){}, removeListener(){} }));
 
-const appJs = fs.readFileSync('/home/user/app.js', 'utf8');
+const appJs = fs.readFileSync(join(RACINE, 'app.js'), 'utf8');
 const s = window.document.createElement('script');
 s.textContent = appJs;
 window.document.body.appendChild(s);

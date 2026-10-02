@@ -118,6 +118,12 @@ const ligne = 'Il est venu, et il a parlé au peuple avec autorité.';
 ligne === ligne.trim() ? ok('le texte projeté est transmis tel quel au moteur de rendu') : ko('altération du texte projeté');
 
 /* ---------------------------------------------------------------- 4. contenu */
+const dossierContenu = path.join(RACINE, 'content');
+const contenuPresent = fs.existsSync(path.join(dossierContenu, 'bible.json.gz')) &&
+                       fs.existsSync(path.join(dossierContenu, 'brochures.json.gz'));
+if (!contenuPresent) {
+  console.log('  · contenu non présent ici : il vit dans le dépôt GitHub (git clone → npm run contenu) — contrôles du contenu ignorés');
+} else {
 titre('4. Contenu réel (Bible + brochures + cantiques)');
 try {
   const bible = JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(RACINE, 'content/bible.json.gz'))).toString('utf8'));
@@ -134,6 +140,8 @@ try {
 try {
   const bro = JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(RACINE, 'content/brochures.json.gz'))).toString('utf8'));
   const doubles = bro.filter(b => b.tr.VGR && b.tr.Shekina);
+  const enBf = bro.filter(b => b.tr.BF);
+  const autres = bro.filter(b => Object.keys(b.tr).some(t => !['VGR', 'Shekina', 'BF'].includes(t)));
   bro.length > 50 ? ok('Brochures : ' + bro.length + ' chargées') : ko('trop peu de brochures : ' + bro.length);
   doubles.length > 0 ? ok('Double traduction VGR + Shekina : ' + doubles.length + ' brochures — la bascule est disponible') : ko('aucune brochure en double traduction');
   const b0 = doubles[0];
@@ -142,6 +150,8 @@ try {
   (nbParas > 0 && nbParasS > 0) ? ok('« ' + b0.name.slice(0, 46) + '… » : ' + nbParas + ' paragraphes VGR / ' + nbParasS + ' Shekina') : ko('brochure vide');
   const toutesLignes = b0.tr.VGR.every(p => Array.isArray(p) && p.length > 0);
   toutesLignes ? ok('chaque paragraphe contient au moins une ligne de lecture') : ko('paragraphe sans lignes');
+  enBf.length ? ok('troisième traduction BF (branham.fr) présente : ' + enBf.length + ' brochures — jamais appelée « La Voix de Dieu »') : ok('aucune brochure BF dans ce contenu');
+  autres.length === 0 ? ok('aucune autre traduction dans le contenu (MS, BBV et le reste sont écartés)') : ko('traductions en trop : ' + autres.slice(0, 2).map(b => Object.keys(b.tr).join('+')).join(' '));
 } catch (e) { ko('lecture des brochures : ' + e.message); }
 
 try {
@@ -151,6 +161,8 @@ try {
 } catch (e) { ko('lecture des cantiques : ' + e.message); }
 
 /* ---------------------------------------------------------------- 5. rendu (recherche dichotomique) */
+}
+
 titre('5. Réduction automatique du texte');
 const rendu = require(path.join(RACINE, 'render.js'));
 const faux = { style: {}, clientWidth: 1920, clientHeight: 1080, scrollHeight: 600, scrollWidth: 900 };

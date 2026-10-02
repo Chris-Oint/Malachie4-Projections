@@ -5,7 +5,15 @@
    au format du cahier des charges (annexe F) :
      Bible    : bible[livre abrégé][chapitre] = [ "1 texte du verset", ... ]
      Cantique : { id, name, units: [strophe, refrain, ...] }
-     Brochure : { id, name, tr: { VGR: [[lignes]], Shekina: [[lignes]] } }
+     Brochure : { id, name, tr: { VGR: [[lignes]], Shekina: [[lignes]], BF: [[lignes]] } }
+
+   Règles de la collection (fixées par l'église) :
+     · trois traductions seulement — VGR (officiel), Shekina, et BF (branham.fr,
+       Restauration Promise) qui n'est JAMAIS appelée « La Voix de Dieu » ;
+     · MS, BBV et toutes les autres traductions sont écartés ;
+     · une même brochure n'entre qu'une fois par traduction, et les textes de
+       branham.fr ne sont gardés que si la brochure n'existe ni en Shekinah
+       ni en VGR officiel.
 
    Usage :
      node outils/preparer_contenu.js --bibliotheque="../data" --sortie="content"
@@ -80,15 +88,22 @@ async function preparerBrochures() {
     if (!f.endsWith('.json.gz')) continue;
     const d = LIRE(path.join(dirSer, f)); const t = (d.trad || '').toUpperCase();
     if (t === 'SHP') { if (!shp[d.code]) shp[d.code] = d; }
-    else if (!autres[d.code]) autres[d.code] = d;
+    else if (t === 'VGR' || t === 'BF') { if (!autres[d.code]) autres[d.code] = d; }   /* branham.fr → BF */
+    /* MS, BBV et les autres traductions : écartés de la collection */
   }
   const codes = Array.from(new Set([...Object.keys(vgr), ...Object.keys(shp), ...Object.keys(autres)]));
   let liste = codes.map(c => {
     const v = vgr[c], s = shp[c], a = autres[c];
     const poids = (v ? v.chars : 0) + (s ? s.chars : 0) + (a ? a.chars : 0);
-    return { code: c, poids, deux: !!(v && s), v, s, a };
+    /* « rare » = traduite par branham.fr seule : elle a sa place même si le
+       plafond de contenu est atteint (les trois traductions restent représentées). */
+    return { code: c, poids, deux: !!(v && s), rare: !!(a && !v && !s), v, s, a };
   });
-  liste.sort((x, y) => (y.deux - x.deux) || (SERIES_PRIORITAIRES.test(y.code) - SERIES_PRIORITAIRES.test(x.code)) || (y.poids - x.poids));
+  /* ordre : d'abord celles que branham.fr a traduites seule (les trois traductions
+     restent représentées même si le plafond est atteint), puis les doubles, puis
+     les séries prioritaires, puis les plus volumineuses. */
+  liste.sort((x, y) => (y.rare - x.rare) || (y.deux - x.deux) ||
+    (SERIES_PRIORITAIRES.test(y.code) - SERIES_PRIORITAIRES.test(x.code)) || (y.poids - x.poids));
   const gardees = MAX > 0 ? liste.slice(0, MAX) : liste;
   gardees.sort((x, y) => (x.code || '').localeCompare(y.code || ''));
 
@@ -97,13 +112,13 @@ async function preparerBrochures() {
   const gz = zlib.createGzip({ level: 9 });
   gz.pipe(out);
   gz.write('[');
-  let n = 0, deux = 0, textes = 0;
+  let n = 0, deux = 0, bf = 0, textes = 0;
   for (const e of gardees) {
     const src = e.v || e.a;
     const tr = {};
     if (e.v) tr.VGR = decouperTexte(e.v.paras);
     if (e.s) tr.Shekina = decouperTexte(e.s.paras);
-    if (!e.v && e.a) tr[(e.a.trad || 'MS').toUpperCase()] = decouperTexte(e.a.paras);
+    if (!e.v && e.a) tr.BF = decouperTexte(e.a.paras);        /* branham.fr, jamais « VGR » */
     if (!Object.keys(tr).length) continue;
     const obj = {
       id: e.code, code: e.code,
@@ -115,12 +130,12 @@ async function preparerBrochures() {
       duree: (e.a && e.a.duree) || ''
     };
     gz.write((n ? ',' : '') + JSON.stringify(obj));
-    n++; textes += Object.keys(tr).length; if (tr.VGR && tr.Shekina) deux++;
+    n++; textes += Object.keys(tr).length; if (tr.VGR && tr.Shekina) deux++; if (tr.BF) bf++;
   }
   gz.write(']');
   gz.end();
   await new Promise(r => out.on('close', r));
-  console.log(`  Brochures : ${n} (dont ${deux} en double traduction VGR+Shekina · ${textes} textes) · ${ko(fs.statSync(dest).size)}`);
+  console.log(`  Brochures : ${n} (dont ${deux} en double traduction VGR+Shekina et ${bf} en BF/branham.fr · ${textes} textes) · ${ko(fs.statSync(dest).size)}`);
 }
 
 /* ---------- 3. Cantiques (recueil de démonstration, domaine public) ---------- */

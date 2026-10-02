@@ -561,7 +561,7 @@ const R = {
   brochureListe: null,         // brochure affichée (résumé) dans la zone 4
   brochure: null,              // brochure chargée en zone 5 {id,name,tr}
   cantique: null,              // cantique chargé en zone 5
-  trad: 'VGR',
+  trad: 'VGR',                 // traduction affichée : VGR · Shekina · BF
   para: 0,                     // paragraphe actif (brochure)
   ligne: -1,                   // ligne sélectionnée (index dans la liste plate)
   referenceVue: null,          // dernière référence biblique ouverte (anti-boucle)
@@ -578,6 +578,9 @@ const R = {
   etat: { affichage: true, projection: true, screen: { connected: false, w: 0, h: 0 } }
 };
 const TYPES = { cantique: 'Cantique', bible: 'Bible', brochure: 'Brochure' };
+/* Les trois traductions de la collection. BF = branham.fr (Restauration Promise) :
+   elle n'est jamais appelée « La Voix de Dieu ». */
+const NOM_TRAD = { VGR: 'La Voix de Dieu (VGR officiel)', Shekina: 'Shekinah Publications', BF: 'BF — branham.fr (Restauration Promise)' };
 const MAX_HISTORIQUE = 30;
 
 /* ---------------------------------------------------------------- utilitaires */
@@ -882,7 +885,10 @@ function dessinerGestion() {
   outils.innerHTML = '';
   if (R.brochure) {                                       /* ---- brochure ---- */
     $('#titreGestion').textContent = R.brochure.name + ' — ' + R.trad;
-    outils.innerHTML = '<button class="mini" data-trad="VGR">VGR</button><button class="mini" data-trad="Shekina">Shekina</button>' +
+    /* une pastille par traduction réellement disponible dans la brochure :
+       VGR (officiel), Shekina, BF (branham.fr) — jamais deux fois la même. */
+    outils.innerHTML = Object.keys(R.brochure.tr).map(t =>
+        '<button class="mini" data-trad="' + t + '" title="' + escapeAttr(NOM_TRAD[t] || t) + '">' + (t === 'Shekina' ? 'Shekina' : t) + '</button>').join('') +
       '<button class="mini" id="bCopierBrochure">Copier</button>';
     $$('#outilsGestion .mini[data-trad]').forEach(b => {
       b.classList.toggle('actif', b.dataset.trad === R.trad);
@@ -1263,10 +1269,17 @@ api.onEtat(msg => {
 (async function demarrer() {
   try {
     R.index = await api.indexContenu();
-    if (R.index.erreur) notifier('Contenu : ' + R.index.erreur);
+    if (R.index.erreur) {
+      /* le contenu vit dans le dépôt : on le dit clairement plutôt que de rester muet */
+      $('#etatContenu').textContent = '· contenu absent — voir LISEZMOI (le contenu vit dans le dépôt GitHub)';
+      $('#etatContenu').style.color = '#f0a0a0';
+      notifier('Contenu absent : récupérez-le depuis le dépôt (git clone), puis « npm run contenu ».');
+    }
     const s = R.index.stats || {};
     $('#etatContenu').textContent = '· ' + (s.brochures || 0) + ' brochures · ' + (s.cantiques || 0) + ' cantiques · ' +
-      (s.livres || 0) + ' livres (' + (s.versets || 0) + ' versets)' + (s.doubleTraduction ? ' · ' + s.doubleTraduction + ' en VGR+Shekina' : '');
+      (s.livres || 0) + ' livres (' + (s.versets || 0) + ' versets)' +
+      (s.doubleTraduction ? ' · ' + s.doubleTraduction + ' en VGR + Shekina' : '') +
+      (s.branhamFr ? ' · ' + s.branhamFr + ' en BF (branham.fr)' : '');
     $('#aideInfos').textContent = 'Contenu chargé en mémoire : aucune connexion internet n’est nécessaire. Dossier des données : ' + (await api.infos()).dossier;
     R.reserve = (await api.lireDonnees('reserve')) || [];
     R.historique = (await api.lireDonnees('historique')) || [];

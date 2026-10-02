@@ -58,7 +58,10 @@ function norm(s) {
 }
 function fmt(n) { return n.toLocaleString('fr-FR'); }
 function absUrl(u){ if(!u) return ''; return /^https?:/i.test(u) ? u : 'https://branham.fr'+u; }
-const TRAD_LABEL={ 'VGR':'La Voix de Dieu', 'VGR-OFF':'La Voix de Dieu (officiel)', 'SHP':'Shekinah', 'MS':'MS', 'BBV':'BBV' };
+/* Trois traductions seulement : VGR officiel, Shekinah, et branham.fr (abrégé BF,
+   qui n'est jamais appelé « La Voix de Dieu »). */
+const TRAD_LABEL={ 'VGR-OFF':'La Voix de Dieu (VGR)', 'SHP':'Shekinah', 'BF':'BF — branham.fr (Restauration Promise)' };
+const TRAD_COURT={ 'VGR-OFF':'VGR', 'SHP':'Shekinah', 'BF':'BF' };
 function tradLabel(t){ return TRAD_LABEL[(t||'').toUpperCase()] || t || ''; }
 
 async function loadGz(url) {
@@ -85,7 +88,7 @@ function showView(v, push = true) {
 window.addEventListener('popstate', e => { const v = (e.state && e.state.v) || 'home'; showView(v, false); });
 
 $('#tileVgr')?.addEventListener('click', () => {
-  const chip = $$('#chipsTrad .chip').find(c => c.dataset.trad === 'VGR,VGR-OFF');
+  const chip = $$('#chipsTrad .chip').find(c => c.dataset.trad === 'VGR-OFF');
   if (chip) chip.dispatchEvent(new MouseEvent('click'));
 });
 $$('[data-go]').forEach(b => b.addEventListener('click', () => {
@@ -121,14 +124,14 @@ function renderHome() {
   const s = state.cat.sermons;
   const trads = {}; s.forEach(r => trads[r.trad] = (trads[r.trad] || 0) + 1);
   const audio = s.filter(r => r.mp3 || r.audio).length;
-  const nVgr = (trads['VGR'] || 0) + (trads['VGR-OFF'] || 0);
+  const nVgr = trads['VGR-OFF'] || 0;
   $('#stats').innerHTML = `
     <div class="stat"><b>${fmt(s.length)}</b><span>prédications &amp; brochures</span></div>
     <div class="stat"><b>${fmt(nVgr)}</b><span>traduction La Voix de Dieu</span></div>
     <div class="stat"><b>66</b><span>livres de la Bible</span></div>
     <div class="stat"><b>31 169</b><span>versets (Segond 1910)</span></div>`;
-  const tvs=$('#tileVgrS'); if(tvs) tvs.textContent = `${fmt(nVgr)} brochures · ${fmt(trads['VGR-OFF']||0)} officielles · ${fmt(s.filter(r=>/^VGR/i.test(r.trad)&&(r.mp3||r.audio)).length)} avec audio`;
-  $('#tileSermons').textContent = `${fmt(s.length)} textes · La Voix de Dieu ${fmt(nVgr)} · Shekinah ${fmt(trads['SHP']||0)} · MS ${fmt(trads['MS']||0)} · ${fmt(audio)} avec audio`;
+  const tvs=$('#tileVgrS'); if(tvs) tvs.textContent = `${fmt(nVgr)} brochures officielles · ${fmt(s.filter(r=>r.trad==='VGR-OFF'&&(r.mp3||r.audio)).length)} avec audio`;
+  $('#tileSermons').textContent = `${fmt(s.length)} textes · La Voix de Dieu (VGR) ${fmt(nVgr)} · Shekinah ${fmt(trads['SHP']||0)} · BF ${fmt(trads['BF']||0)} · ${fmt(audio)} avec audio`;
   const nf = Object.keys(favs.sermons).length + Object.keys(favs.bible).length;
   $('#tileFav').textContent = nf ? `${nf} enregistré(s)` : 'Aucun favori pour le moment';
   const r = reads.sermon;
@@ -142,14 +145,13 @@ function renderHome() {
 
 /* ---------- prédications : liste + filtres ---------- */
 function initSermonFilters() {
-  const nVgr = state.cat.sermons.filter(r => /^VGR/i.test(r.trad)).length;
   const nOff = state.cat.sermons.filter(r => r.trad === 'VGR-OFF').length;
-  const trads = Array.from(new Set(state.cat.sermons.map(r => r.trad))).filter(t => t !== 'VGR-OFF').sort();
-  const label = t => t === 'VGR' ? 'La Voix de Dieu (branham.fr)' : t === 'SHP' ? 'Shekinah (Shp)' : t;
-  $('#chipsTrad').innerHTML = [`<button class="chip active" data-trad="">Toutes</button>`,
-      `<button class="chip gold" data-trad="VGR,VGR-OFF">★ La Voix de Dieu — tout (${fmt(nVgr)})</button>`,
-      `<button class="chip" data-trad="VGR-OFF">La Voix de Dieu (officiel · ${fmt(nOff)})</button>`]
-    .concat(trads.map(t => `<button class="chip" data-trad="${t}">${label(t)}</button>`)).join('');
+  const nShp = state.cat.sermons.filter(r => r.trad === 'SHP').length;
+  const nBf  = state.cat.sermons.filter(r => r.trad === 'BF').length;
+  $('#chipsTrad').innerHTML = [`<button class="chip active" data-trad="">Toutes (${fmt(state.cat.sermons.length)})</button>`,
+      `<button class="chip gold" data-trad="VGR-OFF">★ La Voix de Dieu — VGR (${fmt(nOff)})</button>`,
+      `<button class="chip" data-trad="SHP">Shekinah (${fmt(nShp)})</button>`,
+      `<button class="chip" data-trad="BF">BF — branham.fr (${fmt(nBf)})</button>`].join('');
   $$('#chipsTrad .chip').forEach(c => c.addEventListener('click', () => {
     state.trad = c.dataset.trad ? c.dataset.trad.split(',') : null;
     $$('#chipsTrad .chip').forEach(x => x.classList.toggle('active', x === c));
@@ -196,7 +198,7 @@ function sermonCard(r, i) {
     <div class="it-title">${escapeHtml(r.title)}</div>
     <div class="it-meta">
       <span class="badge">${r.code || '—'}</span>
-      <span class="${/^VGR/.test(r.trad) ? 'badge gold' : 'badge grey'}">${escapeHtml(tradLabel(r.trad))}</span>
+      <span class="${r.trad === 'VGR-OFF' ? 'badge gold' : 'badge grey'}">${escapeHtml(TRAD_COURT[r.trad] || tradLabel(r.trad))}</span>
       ${(r.mp3 || r.audio) ? '<span class="badge grey">🎧 audio</span>' : ''}${r.scan ? '<span class="badge grey">PDF scanné</span>' : ''}
       <span>${fmt(Math.round(r.chars / 1000))} k caractères${dur}</span>
     </div></button>`;
@@ -566,7 +568,7 @@ async function runDeep() {
           found++;
           const html = `<button class="item" data-fav-s="${rec.id}">
             <div class="it-title">${escapeHtml(rec.title)}</div>
-            <div class="it-meta"><span class="badge">${rec.code}</span><span>${rec.trad}</span><span>${hits.length} extrait(s)</span></div>
+            <div class="it-meta"><span class="badge">${rec.code}</span><span>${TRAD_COURT[rec.trad] || rec.trad}</span><span>${hits.length} extrait(s)</span></div>
             ${hits.map(h => `<div class="muted" style="margin-top:6px;font-size:13px">…${escapeHtml(surround(h.t, q))}…</div>`).join('')}
           </button>`;
           $('#deepResults').insertAdjacentHTML('beforeend', html);

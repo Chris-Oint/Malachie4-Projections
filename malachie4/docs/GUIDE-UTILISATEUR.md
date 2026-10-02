@@ -58,8 +58,10 @@ Il fonctionne même quand **Affichage** est coupé : on garde toujours le contr�
 * **B · Bible** — 66 livres disposés en grille ; cliquez un livre, puis un chapitre,
   puis un verset. Vous pouvez aussi taper directement une référence :
   `Jn 3:16`, `jean 3.16`, `ps 23`, `1 Co 13:4`.
-* **C · Brochures** — la bibliothèque La Voix de Dieu / Shekinah. Le bouton de
-  traduction **VGR / Shekina** permet de basculer sur le même passage.
+* **C · Brochures** — la bibliothèque, en **trois traductions** : La Voix de Dieu (VGR),
+  Shekinah, et **BF** (branham.fr — Restauration Promise). Le bouton de traduction
+  (**VGR / Shekina**, ou **BF** sur les 11 brochures que branham.fr a traduites seule)
+  permet de basculer sur le même passage.
 La recherche (Ctrl+F) filtre la liste en direct.
 
 **Zone 5 — Gestion.** Le texte sélectionné, prêt à projeter : cantiques par strophe,
