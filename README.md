@@ -7,7 +7,25 @@ Ce dépôt contient **deux choses**, toutes deux utilisables **sans Internet** :
 | **1** | **Malachie 4 Projections** — le logiciel de projection pour les cultes (Windows, Linux, macOS + version navigateur + démonstration) | dossier **`malachie4/`** |
 | **2** | **La Bibliothèque du Message** — la collection française complète de prédications et brochures (618 textes), la Bible Louis Segond 1910 et « Les Sept Âges de l'Église », consultables dans le navigateur | racine du dépôt (`index.html`) et dossier **`data/`** |
 
+
 ---
+
+## ⚡ Téléchargement direct Windows (.exe) & Simulation d'ordinateur (Moyens 3 à 7)
+
+Sans rien compiler ni installer Node.js (**Moyen 6 — GitHub Actions + Releases**), téléchargez directement l'application Windows prête à l'emploi :
+
+- 🟢 **[Télécharger l'Installateur Windows — `Malachie4-Projections-Setup-2.0.0-x64.exe` (87 Mo)](https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-Setup-2.0.0-x64.exe)** *(double-cliquez pour installer avec raccourcis Bureau et Menu Démarrer)*
+- 🔵 **[Télécharger la Version Portable — `Malachie4-Projections-portable-2.0.0.exe` (87 Mo)](https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-portable-2.0.0.exe)** *(double-cliquez directement, sans installation — idéal aussi sur clé USB)*
+- 💻 **[Ouvrir la Simulation d'ordinateur Windows 11 + Vidéoprojecteur en ligne](https://chris-oint.github.io/Malachie4-Projections/simulation-windows.html)**
+- 📦 **Moyens 3 à 7 inclus dans le dépôt** :
+  - **Moyen 6 (Recommandé — 0 connaissance)** : `.github/workflows/build-windows.yml` construit automatiquement les `.exe` sur GitHub Actions et les publie dans [Releases](https://github.com/Chris-Oint/Malachie4-Projections/releases/latest).
+  - **Moyen 3 (Installateur local)** : double-clic sur `INSTALLER-WINDOWS.bat` (ou `malachie4/INSTALLER-WINDOWS.bat`).
+  - **Moyen 4 (Essai direct)** : double-clic sur `LANCER.bat` (`npm install` automatique la 1re fois).
+  - **Moyen 5 (Mode secours)** : double-clic sur `LANCER-MODE-SECOURS.bat` si la transparence clignote sur un PC.
+  - **Moyen 7 (Terminal)** : `npm install` puis `npm run dist` dans `malachie4/`.
+
+---
+
 
 ## 1. Le logiciel de projection — `malachie4/`
 
