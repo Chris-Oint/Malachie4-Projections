@@ -27,7 +27,7 @@
  },
  {
   "id": "c04",
-  "name": "4 — Grâce infinie",
+  "name": "4 — Grâce infinie (Amazing Grace)",
   "units": [
    "Grâce infinie ! Que ta douceur est grande,\nPour moi qui étais perdu, errant loin du chemin.\nJ'étais aveugle et sans force, tu m'as sauvé,\nEt je puis dire enfin : grâce infinie !",
    "Refrain :\nGrâce, grâce, grâce infinie,\nTa grâce m'a trouvé, m'a sauvé et m'a gardé."
@@ -61,6 +61,112 @@
   "units": [
    "Nous t'adorons, Seigneur, Roi de gloire,\nNous te bénissons pour ta grande bonté.\nQue ton nom soit loué dans toute la terre,\nQue ton règne vienne dans nos cœurs.",
    "Refrain :\nLoué sois-tu, loué sois-tu,\nSeigneur Jésus, pour l'éternité !"
+  ]
+ },
+ {
+  "id": "c09",
+  "name": "9 — Seulement croire",
+  "units": [
+   "Ne crains rien, petit troupeau,\nDe la croix jusqu'au trône ;\nDe la mort à la vie, Il alla pour les siens.\nTout pouvoir sur la terre, tout pouvoir dans le ciel\nLui est donné pour son amour fidèle.",
+   "Refrain :\nSeulement croire, seulement croire,\nTout est possible, seulement croire ;\nSeulement croire, seulement croire,\nTout est possible, seulement croire.",
+   "Seigneur, je crois, Seigneur, je crois,\nTout est possible, Seigneur, je crois ;\nJésus est là, Jésus est là,\nTout est possible, Jésus est là."
+  ]
+ },
+ {
+  "id": "c10",
+  "name": "10 — À la croix, où mourut mon Sauveur",
+  "units": [
+   "À la croix, où mourut mon Sauveur,\nJe suis venu, brisé de douleur ;\nLà, son sang purifia mon cœur :\nÀ son nom la gloire !",
+   "Refrain :\nÀ son nom la gloire !\nÀ son nom la gloire !\nLà, son sang purifia mon cœur :\nÀ son nom la gloire !",
+   "Quelle merveille, il m'a racheté,\nDe mes péchés il m'a délivré ;\nDans mon cœur Jésus est venu habiter :\nÀ son nom la gloire !",
+   "Ô fontaine qui sauve du péché,\nJe suis heureux d'y être entré ;\nLà, Jésus me garde en pureté :\nÀ son nom la gloire !"
+  ]
+ },
+ {
+  "id": "c11",
+  "name": "11 — Tel que je suis, sans rien à moi",
+  "units": [
+   "Tel que je suis, sans rien à moi,\nSinon ton sang versé pour moi\nEt ta voix qui m'appelle à toi,\nAgneau de Dieu, je viens, je viens !",
+   "Tel que je suis, bien vacillant,\nEn proie au doute à chaque instant,\nLutte au-dehors, crainte au-dedans,\nAgneau de Dieu, je viens, je viens !",
+   "Tel que je suis, ton cœur est prêt\nÀ prendre le mien tel qu'il est,\nPour tout changer, Sauveur parfait !\nAgneau de Dieu, je viens, je viens !"
+  ]
+ },
+ {
+  "id": "c12",
+  "name": "12 — Quelle assurance (Jésus est à moi)",
+  "units": [
+   "Quelle assurance : Jésus est à moi !\nOh ! quel avant-goût de la gloire divine !\nHéritier du salut, racheté par Dieu,\nNé de son Esprit, lavé dans son sang.",
+   "Refrain :\nC'est mon histoire, c'est là mon chant,\nLouer mon Sauveur tout le long du jour !\nC'est mon histoire, c'est là mon chant,\nLouer mon Sauveur tout le long du jour !",
+   "Parfaite soumission, parfait délice,\nDes visions d'enlèvement éclatent à ma vue ;\nDes anges descendent et m'apportent du ciel\nLes échos de grâce et les murmures d'amour."
+  ]
+ },
+ {
+  "id": "c13",
+  "name": "13 — Roc séculaire",
+  "units": [
+   "Roc séculaire, frappé pour moi,\nSur le Calvaire je viens à toi.\nTu sais mes chutes, ô mon Sauveur !\nVois mes luttes et ma douleur.",
+   "Refrain :\nRoc séculaire, frappé pour moi,\nSur le Calvaire je viens à toi.",
+   "Mon zèle est faible, mon cœur impur,\nMais ton sang lave, j'en suis bien sûr.\nSeul ton sacrifice peut me sauver ;\nEn ta justice je veux marcher."
+  ]
+ },
+ {
+  "id": "c14",
+  "name": "14 — Debout sur les promesses de Christ",
+  "units": [
+   "Debout sur les promesses de Christ mon Roi,\nQu'à travers les âges sa louange soit !\nJe chante et j'adore, triomphant par la foi,\nDebout sur les promesses de Dieu.",
+   "Refrain :\nDebout, debout,\nDebout sur les promesses de Dieu mon Sauveur !\nDebout, debout,\nJe me tiens sur les promesses de Dieu !",
+   "Debout sur les promesses qui ne faillissent pas,\nQuand les vents du doute et de la peur sont là,\nPar la Parole vivante je vaincrai le combat,\nDebout sur les promesses de Dieu."
+  ]
+ },
+ {
+  "id": "c15",
+  "name": "15 — Il y a une fontaine remplie de sang",
+  "units": [
+   "Il y a une fontaine remplie du sang\nTiré des veines d'Emmanuel ;\nEt les pécheurs plongés sous ce flot puissant\nPerdent toutes les taches de leur péché.",
+   "Le brigand mourant se réjouit de voir\nCette fontaine en son dernier jour ;\nEt là aussi, aussi vil que lui, ce soir,\nJe lave tous mes péchés pour toujours.",
+   "Depuis que par la foi j'ai vu ce ruisseau\nQue tes blessures ont fait couler,\nL'amour rédempteur a été mon thème nouveau,\nEt le sera jusqu'à mon dernier soupir."
+  ]
+ },
+ {
+  "id": "c16",
+  "name": "16 — Quand l'appel retentira là-haut",
+  "units": [
+   "Quand la trompette du Seigneur sonnera et le temps ne sera plus,\nEt que le matin éternel se lèvera, radieux et pur,\nQuand les sauvés de la terre se rassembleront sur l'autre rive,\nEt que l'appel retentira là-haut, j'y serai !",
+   "Refrain :\nQuand l'appel retentira là-haut,\nQuand l'appel retentira là-haut,\nQuand l'appel retentira là-haut,\nPar la grâce de Dieu, j'y serai !",
+   "En ce beau matin sans nuages où les morts en Christ ressusciteront,\nEt partageront la gloire de sa résurrection,\nQuand ses élus se réuniront dans leur maison au-delà du ciel,\nEt que l'appel retentira là-haut, j'y serai !"
+  ]
+ },
+ {
+  "id": "c17",
+  "name": "17 — Jésus paya tout",
+  "units": [
+   "J'entends le Sauveur dire :\n« Ta force est bien petite ;\nEnfant faible, veille et prie,\nTrouve en moi ton tout en tout. »",
+   "Refrain :\nJésus paya tout,\nJe lui dois tout ;\nLe péché avait laissé une tache cramoisie,\nIl l'a lavée blanche comme la neige.",
+   "Seigneur, maintenant je trouve\nTa puissance, et elle seule,\nPeut changer le cœur du lépreux\nEt fondre le cœur de pierre."
+  ]
+ },
+ {
+  "id": "c18",
+  "name": "18 — Oh ! quel beau jour",
+  "units": [
+   "Oh ! quel beau jour, où devant ta face\nTous tes rachetés paraîtront,\nCélébrant ta gloire et ta grâce,\nDe leurs chants les cieux retentiront !",
+   "Refrain :\nOh ! quel beau jour ! Oh ! quel beau jour,\nOù Jésus a lavé mes péchés !\nIl m'apprit à veiller, prier,\nEt à me réjouir chaque jour !"
+  ]
+ },
+ {
+  "id": "c19",
+  "name": "19 — Grand Dieu, nous te bénissons",
+  "units": [
+   "Grand Dieu, nous te bénissons,\nNous célébrons tes louanges !\nÉternel, nous t'exaltons\nDe concert avec les anges,\nEt, prosternés devant toi,\nNous t'adorons, ô grand Roi !",
+   "Saint, saint, saint est l'Éternel,\nLe Seigneur, Dieu des armées !\nSon pouvoir est immortel ;\nSes œuvres, partout semées,\nFont éclater sa grandeur,\nSa majesté, sa splendeur."
+  ]
+ },
+ {
+  "id": "c20",
+  "name": "20 — Entre tes mains j'abandonne",
+  "units": [
+   "Entre tes mains j'abandonne\nTout ce que j'appelle mien.\nOh ! ne permets à personne,\nSeigneur, d'en reprendre rien !\nOui, prends tout, Seigneur ! Oui, prends tout, Seigneur !\nEntre tes mains j'abandonne\nTout avec bonheur.",
+   "Je n'ai pas peur de te suivre\nSur le chemin de la croix.\nC'est pour toi que je veux vivre,\nJe connais, j'aime ta voix.\nOui, prends tout, Seigneur ! Oui, prends tout, Seigneur !\nSans rien garder, je te livre\nTout avec bonheur."
   ]
  }
 ]
