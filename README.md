@@ -130,3 +130,12 @@ pousser_sur_github.sh             renvoie le travail sur GitHub en une commande 
 `tests/test_app.mjs`, `tests/test_vgr.mjs`, `tests/test_deep.mjs`,
 `tests/test_bible_standalone.mjs`
 (1 620 textes = 1 210 Shekinah + 399 La Voix de Dieu + 11 BF, 66 livres, 31 169 versets).
+
+## 4. Application web Malachie 4 — Bible d’étude
+
+L’application web fournie par Chris-Oint est disponible directement ici :
+
+- [Ouvrir Malachie 4 — Bible d’étude](malachi4-rapide-max.html)
+- Icône PWA : `assets/icon-512.png`
+- Manifeste : `malachi4-rapide-max.webmanifest`
+- Service worker dédié : `malachi4-rapide-max-sw.js`

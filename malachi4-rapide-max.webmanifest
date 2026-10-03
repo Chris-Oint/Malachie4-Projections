@@ -1,0 +1,15 @@
+{
+  "name": "Malachie 4 — Bible d’étude",
+  "short_name": "Malachie 4",
+  "description": "Bible d’étude Malachie 4 — application web Chris-Oint",
+  "lang": "fr",
+  "start_url": "./malachi4-rapide-max.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f6f3ee",
+  "theme_color": "#f6f3ee",
+  "icons": [
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
