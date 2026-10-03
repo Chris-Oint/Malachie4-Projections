@@ -1,0 +1,84 @@
+name: Construction Windows (.exe) — Malachie 4 Projections
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'malachie4/**'
+      - 'Logiciel-Windows/**'
+      - '.github/workflows/build-windows.yml'
+      - 'INSTALLER-WINDOWS.bat'
+      - 'LANCER.bat'
+      - 'LANCER-MODE-SECOURS.bat'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Construire Setup .exe et Portable .exe (Windows x64)
+    runs-on: windows-latest
+
+    steps:
+      - name: Récupération du dépôt
+        uses: actions/checkout@v4
+
+      - name: Installation de Node.js 20 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: malachie4/package-lock.json
+
+      - name: Installation des composants (npm install)
+        working-directory: malachie4
+        run: npm install --no-audit --no-fund
+
+      - name: Vérification automatique du logiciel (186 contrôles)
+        working-directory: malachie4
+        run: npm test
+
+      - name: Construction de l'installateur Setup .exe et du .exe portable
+        working-directory: malachie4
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npm run dist
+
+      - name: Préparation des fichiers .exe
+        working-directory: malachie4
+        shell: bash
+        run: |
+          ls -lh livraison/
+          if [ -f "livraison/Malachie4-Projections-2.0.0-x64.exe" ]; then
+            cp "livraison/Malachie4-Projections-2.0.0-x64.exe" "livraison/Malachie4-Projections-Setup-2.0.0-x64.exe"
+          fi
+
+      - name: Dépôt des exécutables dans l'onglet Actions (Artifacts)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Malachie4-Projections-Windows-EXE
+          path: malachie4/livraison/*.exe
+          if-no-files-found: error
+
+      - name: Publication directe dans GitHub Releases (Téléchargement en 1 clic)
+        working-directory: malachie4
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view v2.0.0 >/dev/null 2>&1; then
+            gh release create v2.0.0 \
+              --title "Malachie 4 Projections v2.0.0 — Installateur Windows (.exe) & Version Portable" \
+              --notes "### Téléchargement direct pour Windows (Moyen 6 — Sans Node.js, prêt à installer)
+
+          Choisissez l'un des deux fichiers \`.exe\` ci-dessous sur votre ordinateur Windows :
+
+          1. **Installateur Windows (Setup)** : \`Malachie4-Projections-Setup-2.0.0-x64.exe\`
+             - Double-cliquez pour installer le logiciel sur votre PC Windows (crée les raccourcis sur le Bureau et dans le Menu Démarrer, aucun droit administrateur requis).
+          2. **Version Portable (Sans installation / Clé USB)** : \`Malachie4-Projections-portable-2.0.0.exe\`
+             - Double-cliquez directement pour lancer le logiciel sans rien installer.
+
+          Contient hors-ligne : **Bible Louis Segond 1910 (66 livres, 31 169 versets)** + **160 brochures (VGR + Shekinah + BF)** + **Recueil de cantiques** + **Poste de contrôle 6 zones & Écran public 2e écran**."
+          fi
+          gh release upload v2.0.0 livraison/*.exe --clobber

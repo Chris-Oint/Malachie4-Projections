@@ -12,6 +12,8 @@ const path = require('path'), fs = require('fs'), zlib = require('zlib');
 /* ---------------- mode portable : dossier "donnees" à côté de l'exécutable ---------------- */
 const RACINE = path.join(__dirname);
 const PORTABLE = fs.existsSync(path.join(RACINE, 'donnees')) || process.env.M4_PORTABLE === '1';
+const MODE_SECOURS = process.env.M4_SECOURS === '1' || process.argv.includes('--mode-secours');
+if (MODE_SECOURS) { try { app.disableHardwareAcceleration(); } catch (e) {} }
 const DOSSIER_DONNEES = PORTABLE ? path.join(RACINE, 'donnees') : null;
 const CONTENU = process.env.M4_CONTENU ? path.resolve(process.env.M4_CONTENU) : path.join(RACINE, 'content');
 
@@ -104,6 +106,7 @@ function creerFenetrePublique() {
     movable: false, minimizable: false, maximizable: false, fullscreenable: false,
     focusable: false, skipTaskbar: true, alwaysOnTop: true, acceptFirstMouse: false,
     backgroundColor: '#00000000', title: 'Malachie 4 — Écran public',
+    ...(MODE_SECOURS ? { transparent: false, backgroundColor: '#000000' } : {}),
     webPreferences: {
       preload: path.join(RACINE, 'preload.js'), contextIsolation: true, nodeIntegration: false,
       backgroundThrottling: false, spellcheck: false, enableWebSQL: false, sandbox: false
