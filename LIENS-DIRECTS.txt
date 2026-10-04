@@ -1,0 +1,97 @@
+══════════════════════════════════════════════════════════════════════
+  MALACHIE 4 PROJECTIONS — VERSION 2.0.0 — LIENS DE TÉLÉCHARGEMENT DIRECT
+  (un clic sur un lien = le fichier se télécharge, rien d'autre à faire)
+══════════════════════════════════════════════════════════════════════
+
+CONTENU INCLUS DANS CHAQUE FICHIER (aucune connexion Internet requise) :
+  - Bible Louis Segond 1910 .......... 66 livres / 31 169 versets
+  - Brochures Shekinah ............... 1 210
+  - Brochures La Voix de Dieu (VGR) .. 399
+  - Brochures BF (branham.fr) ........ 11
+  - Les Sept Âges de l'Église ........ 10 chapitres
+  - TOTAL ............................ 1 630 textes dans 1 247 fiches
+  - Cantiques ........................ 20 (+ ajout illimité dans le logiciel)
+
+
+──────────────────────────────────────────────────────────────────────
+ 1) ⭐ MÉTHODE LA PLUS SIMPLE : L'INSTALLATEUR "SETUP .EXE"  (125,6 Mo)
+──────────────────────────────────────────────────────────────────────
+https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-Setup-2.0.0-x64.exe
+
+Double-clic sur le fichier téléchargé, puis : Suivant → Installer → Terminer.
+Un raccourci est créé sur le Bureau et dans le Menu Démarrer.
+
+
+──────────────────────────────────────────────────────────────────────
+ 2) VERSION PORTABLE .EXE — AUCUNE INSTALLATION  (125,3 Mo)
+──────────────────────────────────────────────────────────────────────
+https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-portable-2.0.0.exe
+
+Double-clic et le logiciel démarre. Peut être mis sur une clé USB.
+
+
+──────────────────────────────────────────────────────────────────────
+ 3) INSTALLATEUR STANDARD (2e installateur, mêmes contenus)  (125,6 Mo)
+──────────────────────────────────────────────────────────────────────
+https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-2.0.0-x64.exe
+
+
+──────────────────────────────────────────────────────────────────────
+ 4 MÉTHODES 3, 4 ET 5 — LES 3 SCRIPTS .BAT (téléchargement direct)
+──────────────────────────────────────────────────────────────────────
+a) Installer automatiquement le logiciel (méthode 3) :
+https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/INSTALLER-WINDOWS.bat
+
+b) Démarrer le logiciel (méthode 4) :
+https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/LANCER.bat
+
+c) Démarrer en mode secours, reprise après coupure de courant (méthode 5) :
+https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/LANCER-MODE-SECOURS.bat
+
+
+──────────────────────────────────────────────────────────────────────
+ 5) VERSION NAVIGATEUR (rien à installer)
+──────────────────────────────────────────────────────────────────────
+Poste de contrôle (écran 1 — ordinateur du technicien) :
+https://chris-oint.github.io/Malachie4-Projections/malachie4/web/index.html
+
+Écran public (écran 2 — vidéoprojecteur) :
+https://chris-oint.github.io/Malachie4-Projections/malachie4/web/ecran.html
+
+
+──────────────────────────────────────────────────────────────────────
+ 6) AUTRES LIENS DIRECTS
+──────────────────────────────────────────────────────────────────────
+Toutes les versions publiées (page Release v2.0.0) :
+https://github.com/Chris-Oint/Malachie4-Projections/releases/latest
+
+Code source complet du dépôt (.zip) :
+https://github.com/Chris-Oint/Malachie4-Projections/archive/refs/heads/main.zip
+
+Bibliothèque complète des brochures (.json.gz, 49 Mo) :
+https://github.com/Chris-Oint/Malachie4-Projections/raw/main/malachie4/content/brochures.json.gz
+
+Recueil des 20 cantiques (.json) :
+https://github.com/Chris-Oint/Malachie4-Projections/raw/main/malachie4/content/cantiques.json
+
+Bible Louis Segond 1910 (.json.gz) :
+https://github.com/Chris-Oint/Malachie4-Projections/raw/main/malachie4/content/bible.json.gz
+
+Page de téléchargement (boutons verts, plus facile sur le PC) :
+https://chris-oint.github.io/Malachie4-Projections/TELECHARGER.html
+
+
+──────────────────────────────────────────────────────────────────────
+ 7) AU PREMIER LANCEMENT SUR WINDOWS
+──────────────────────────────────────────────────────────────────────
+Si Windows affiche « Windows a protégé votre PC » :
+   cliquer sur « Informations complémentaires »  →  « Exécuter quand même ».
+C'est normal : le logiciel n'a pas de signature payante, il fonctionne
+entièrement hors ligne et ne se connecte à aucun site.
+
+Après une coupure de courant : relancer le logiciel, il retrouve tout seul
+le 2e écran (vidéoprojecteur) et reprend la projection au même endroit.
+
+══════════════════════════════════════════════════════════════════════
+Dépôt GitHub : Chris-Oint/Malachie4-Projections  —  Version 2.0.0
+══════════════════════════════════════════════════════════════════════
