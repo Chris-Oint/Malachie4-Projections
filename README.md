@@ -5,24 +5,36 @@ Ce dépôt contient **deux choses**, toutes deux utilisables **sans Internet** :
 | | Quoi | Où |
 |---|---|---|
 | **1** | **Malachie 4 Projections** — le logiciel de projection pour les cultes (Windows, Linux, macOS + version navigateur + démonstration) | dossier **`malachie4/`** |
-| **2** | **La Bibliothèque du Message** — la collection française complète de prédications et brochures (618 textes), la Bible Louis Segond 1910 et « Les Sept Âges de l'Église », consultables dans le navigateur | racine du dépôt (`index.html`) et dossier **`data/`** |
+| **2** | **La Bibliothèque du Message** — la collection française complète de prédications et brochures (1 630 textes), la Bible Louis Segond 1910 et « Les Sept Âges de l'Église », consultables dans le navigateur | racine du dépôt (`index.html`) et dossier **`data/`** |
 
 
 ---
 
-## ⚡ Téléchargement direct Windows (.exe) & Simulation d'ordinateur (Moyens 3 à 7)
+## ⚡ Téléchargement direct Windows (un clic = le fichier se télécharge)
 
-Sans rien compiler ni installer Node.js (**Moyen 6 — GitHub Actions + Releases**), téléchargez directement l'application Windows prête à l'emploi :
+👉 **Page de téléchargement avec boutons verts : [chris-oint.github.io/Malachie4-Projections/TELECHARGER.html](https://chris-oint.github.io/Malachie4-Projections/TELECHARGER.html)**
+👉 **Liste brute à copier-coller : [`LIENS-DIRECTS.txt`](LIENS-DIRECTS.txt)**
 
-- 🟢 **[Télécharger l'Installateur Windows — `Malachie4-Projections-Setup-2.0.0-x64.exe` (87 Mo)](https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-Setup-2.0.0-x64.exe)** *(double-cliquez pour installer avec raccourcis Bureau et Menu Démarrer)*
-- 🔵 **[Télécharger la Version Portable — `Malachie4-Projections-portable-2.0.0.exe` (87 Mo)](https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-portable-2.0.0.exe)** *(double-cliquez directement, sans installation — idéal aussi sur clé USB)*
-- 💻 **[Ouvrir la Simulation d'ordinateur Windows 11 + Vidéoprojecteur en ligne](https://chris-oint.github.io/Malachie4-Projections/simulation-windows.html)**
-- 📦 **Moyens 3 à 7 inclus dans le dépôt** :
-  - **Moyen 6 (Recommandé — 0 connaissance)** : `.github/workflows/build-windows.yml` construit automatiquement les `.exe` sur GitHub Actions et les publie dans [Releases](https://github.com/Chris-Oint/Malachie4-Projections/releases/latest).
-  - **Moyen 3 (Installateur local)** : double-clic sur `INSTALLER-WINDOWS.bat` (ou `malachie4/INSTALLER-WINDOWS.bat`).
-  - **Moyen 4 (Essai direct)** : double-clic sur `LANCER.bat` (`npm install` automatique la 1re fois).
-  - **Moyen 5 (Mode secours)** : double-clic sur `LANCER-MODE-SECOURS.bat` si la transparence clignote sur un PC.
-  - **Moyen 7 (Terminal)** : `npm install` puis `npm run dist` dans `malachie4/`.
+### 1️⃣ L'installateur le plus simple — `Setup .exe` (125,6 Mo)
+🔗 **https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-Setup-2.0.0-x64.exe**
+*(double-clic sur le fichier téléchargé → Suivant → Installer → Terminer : raccourci Bureau + Menu Démarrer)*
+
+### 2️⃣ Sans installation — `Portable .exe` (125,3 Mo)
+🔗 **https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-portable-2.0.0.exe**
+*(double-clic direct, peut être rangé sur une clé USB)*
+
+### 3️⃣ Installateur standard (2ᵉ installateur, mêmes contenus, 125,6 Mo)
+🔗 **https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/Malachie4-Projections-2.0.0-x64.exe**
+
+### 4️⃣ Les 3 scripts `.bat` — téléchargement direct aussi (Moyens 3, 4 et 5)
+- **Moyen 3 (Installateur local)** : https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/INSTALLER-WINDOWS.bat
+- **Moyen 4 (Essai direct)** : https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/LANCER.bat
+- **Moyen 5 (Mode secours, reprise après coupure)** : https://github.com/Chris-Oint/Malachie4-Projections/releases/latest/download/LANCER-MODE-SECOURS.bat
+
+📦 **Tout le reste** : la Release complète est ici → [github.com/Chris-Oint/Malachie4-Projections/releases/latest](https://github.com/Chris-Oint/Malachie4-Projections/releases/latest)
+*(**Moyen 6** : ces `.exe` sont construits automatiquement par `.github/workflows/build-windows.yml` sur GitHub Actions. **Moyen 7** : `npm install` puis `npm run dist` dans `malachie4/`.)*
+
+> Au premier lancement, Windows peut afficher « Windows a protégé votre PC » : cliquer sur **Informations complémentaires** → **Exécuter quand même**. Le logiciel est 100 % hors ligne (aucune connexion Internet).
 
 ---
 
@@ -43,9 +55,11 @@ rebranche le projecteur (< 2 s), et le texte ne dépasse jamais du cadre.
 * **Mode d'emploi** : `malachie4/docs/GUIDE-UTILISATEUR.md` · **tests** :
   `malachie4/docs/RAPPORT_TESTS.md` (186 contrôles) et `npm test`.
 
-Le logiciel embarque : **66 livres** de la Bible (31 169 versets), **160 brochures**
-(149 en double traduction **VGR + Shekinah**, 11 en **BF** — branham.fr) et le recueil de
-cantiques (modifiable dans le logiciel).
+Le logiciel embarque : **66 livres** de la Bible (31 169 versets), **1 630 textes / 1 247 fiches**
+(**1 210** brochures Shekinah + **399** brochures **La Voix de Dieu** (VGR officiel) + **11**
+**BF** (branham.fr) + **10** chapitres du livre **« Les Sept Âges de l'Église »**, dont **383**
+brochures en double traduction **VGR + Shekinah**) et **20 cantiques** (le recueil est modifiable
+et extensible dans le logiciel).
 
 ---
 
